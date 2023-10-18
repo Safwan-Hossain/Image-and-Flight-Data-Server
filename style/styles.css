@@ -1,0 +1,32 @@
+body {
+    margin-top: 10%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #f0f0f0;
+}
+
+#chart-container {
+    margin: auto;
+}
+
+.temp {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    padding: 0px;
+}
+
+.number-list {
+    margin-left: 10%;
+}
+
+.drone-state-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between; 
+    gap: 10px; 
+}

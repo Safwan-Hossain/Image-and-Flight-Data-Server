@@ -1,0 +1,48 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Communication</title>
+</head>
+<body>
+    <div class="temp">
+        <div class="container">
+            <img id="video-stream" src="" alt="Video Stream">
+        </div>
+        <div class="number-list">
+            <h2>Drone State Information</h2>
+            <ul class="drone-state-list">
+                <!-- Display a list of 10 numbers -->
+                <li class="list-item" id="drone-name"><b>Drone Name: </b></li>
+                <li class="list-item" id="ip-address"><b>IP Address: </b></li>
+                <li class="list-item" id="threat-level"><b>Threat Level: </b> </li>
+                <li class="list-item" id="location"><b>Location: </b></li>
+                <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
+                <li class="list-item" id="acceleration"><b>Acceleration (m/s<sup>2</sup>): </b></li>
+                <li class="list-item" id="tilt"><b>Tilt (degrees): </b></li>
+                <li class="list-item" id="wind-speed"><b>Wind Speed (m/s): </b></li>
+                <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li>
+            </ul>
+        </div>
+        <div id="chart-container">
+            <canvas id="timelineChart"></canvas>
+        </div>
+    </div>
+
+    <!-- ========================== STYLE SHEETS ==========================  -->
+    <link rel="stylesheet" type="text/css" href="../style/styles.css">    
+
+    <!-- ========================== THRID PARTY SCRIPTS ========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!-- ========================== MY SCRIPTS ========================== -->
+    <script src="../scripts/modules/drone-state.js"></script>
+    <script type="module" src="../scripts/modules/data-parser.js"></script>
+    <script type="module" src="../scripts/modules/value-updater.js"></script>
+    <script type="module" src="../scripts/client.js"></script>
+</body>
+</html>
