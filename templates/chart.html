@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <style>
+
+    
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #2e2e2e; /* Dark background for contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff; /* Light text color */
+        }
+    
+        #chart-container {
+            width: 80%;
+            max-width: 800px;
+            background: #383838; 
+            padding: 20px;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+    
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+        #toggleButton {
+            padding: 10px 20px;
+            background-color: #00adb5; /* Teal background to match the chart line */
+            border: none;
+            border-radius: 5px;
+            color: white; /* White text for contrast */
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+            outline: none; /* Removes the outline to make it look cleaner */
+            margin-top: 15px; /* Spacing between the chart and the button */
+        }
+
+        #toggleButton:hover {
+            background-color: #008c95; /* Darker shade for hover effect */
+            transform: translateY(-2px); /* Slight raise effect on hover */
+        }
+
+        #toggleButton:active {
+            transform: translateY(1px); /* Slight press-in effect */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="chart-container">
+        <canvas id="graph"></canvas>
+    </div>
+    <button id="toggleButton">Stop Updating</button>
+    <script>
+
+        
+        window.onload = function() {
+            let isUpdating = true;
+            function toggleChartUpdate() {
+                isUpdating = !isUpdating;
+                if (isUpdating) {
+                    document.getElementById('toggleButton').textContent = 'Stop Updating';
+                }else{
+                    document.getElementById('toggleButton').textContent = 'Resume Updating';
+                }
+            }
+            document.getElementById('toggleButton').addEventListener('click', toggleChartUpdate);
+
+            const ctx = document.getElementById('graph').getContext('2d');
+            const movingTimeGraph = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 100}, (_, i) => (-10 + i * 0.1).toFixed(1)), // Initialize labels from -10 to 0
+                    datasets: [{
+                        label: 'Dynamic Data',
+                        data: [], // Your data points
+                        fill: false,
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        tension: 0.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                color: '#fff', // White text for better readability
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#555', // Darker grid lines
+                            },
+                            ticks: {
+                                color: '#fff', // White text for better readability
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 3,
+                            tension: 0.1,
+                            backgroundColor: 'rgba(0, 175, 255, 0.6)', // Bright line color for contrast
+                            borderColor: 'rgba(0, 175, 255, 1)',
+                            borderCapStyle: 'round',
+                            shadowOffsetX: 1,
+                            shadowOffsetY: 1,
+                            shadowColor: 'rgba(0,0,0,0.25)',
+                            shadowBlur: 5
+                        },
+                        point: {
+                            hoverRadius: 6, // Slightly larger radius on hover
+                            hoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Change color on hover
+                            radius: 0,
+                            backgroundColor: '#fff', // White points for contrast
+                            borderColor: '#fff'
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff', // White text for legend
+                                font: {
+                                    size: 16,
+                                    style: 'italic'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0,0,0,0.8)', // Darker tooltip background
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 12
+                            },
+                            cornerRadius: 4, // Rounded corners for tooltip
+                            caretSize: 6, // Adjust the size of the tooltip arrow
+                            displayColors: false, // Disable displaying color boxes in tooltip
+                        }
+                    }
+                }
+            });
+
+            let tenthOfSecond = 0;
+            setInterval(function() {
+                tenthOfSecond++;
+                const randomValue = Math.floor(Math.random() * 100);
+                const numOfPoints = movingTimeGraph.data.datasets[0].data.length;
+
+               
+                // Remove data points older than 10 seconds
+                movingTimeGraph.data.datasets.forEach((dataset) => {
+                    while (dataset.data.length > 0 && dataset.data[0].x < -10) {
+                        dataset.data.shift();
+                    }
+                });
+
+
+                // Shift data points to the left
+                movingTimeGraph.data.datasets.forEach((dataset) => {
+                    dataset.data = dataset.data.map(point => ({x: point.x - 0.1, y: point.y}));
+                    
+                });
+
+                // Add new data at the end of the array
+                movingTimeGraph.data.datasets.forEach((dataset) => {
+                    dataset.data.push({x: 0, y: randomValue}); // Add new data point at 0
+                });
+
+                if (isUpdating) {
+                    movingTimeGraph.update();
+                }
+            }, 100); // Update every 100 milliseconds
+        };
+    </script>
+</body>
+</html>

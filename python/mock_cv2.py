@@ -1,21 +1,26 @@
 import cv2
-import base64
-import socketio
+from client import CameraClient
 
-sio = socketio.Client()
-sio.connect('http://localhost:3000')
+def tryToLockOnTarget(target):
+    print("Camera System: trying to lock onto target: " + target)
+
+
+client = CameraClient()
+client.initialize()
 
 cap = cv2.VideoCapture(0)
 
 while True:
+    if client.hasTarget():
+        tryToLockOnTarget(client.target)
+
     ret, frame = cap.read()
     if not ret:
         break
 
-    print("Sending")
-    _, buffer = cv2.imencode('.jpg', frame)
-    encoded_image = base64.b64encode(buffer).decode('utf-8')
-    sio.emit('video', {'image': encoded_image})
+    _, raw_image = cv2.imencode('.jpg', frame)
+    client.update_image(raw_image, {})
 
 cap.release()
-sio.disconnect()
+client.disconnect()
+

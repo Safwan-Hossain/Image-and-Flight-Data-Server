@@ -1,78 +1,3 @@
-import { DataParser } from './modules/data-parser.js';
-
-const socket = io('http://localhost:3000');
-
-socket.on('arduinoData', (data) => {
-    const droneState = DataParser.parseData(data);
-    updateState(droneState);
-    updateChart(droneState.location[0]);
-});
-
-
-// ==================
-
-
-const dataPoints = [];
-const maxDataAge = 60; // 1 minute in seconds
-const chartData = {
-    labels: [],
-    datasets: [{
-        label: 'Location (X)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 2,
-        data: dataPoints,
-    }],
-};
-
-const ctx = document.getElementById('timelineChart').getContext('2d');
-const timelineChart = new Chart(ctx, {
-    type: 'line',
-    data: chartData,
-    options: {
-        scales: {
-            x: {
-                type: 'linear',
-                position: 'bottom',
-                min: 0,
-                max: maxDataAge,
-            },
-            y: {
-                min: -50,
-                max: 150, 
-                beginAtZero: true,
-            },
-        },
-    },
-});
-
-// Function to update the chart with new data
-function updateChart(newValue) {
-    const currentTime = new Date().getTime() / 1000; // Convert to seconds
-    dataPoints.push({ x: currentTime, y: newValue });
-    console.log("time: " + currentTime  + ",y-value: " + newValue);
-
-    // Remove data points older than 1 minute
-    while (dataPoints.length > 0 && dataPoints[0].x < currentTime - maxDataAge) {
-        dataPoints.shift();
-    }
-
-    // Update x-axis minimum and maximum values
-    timelineChart.options.scales.x.min = currentTime - maxDataAge;
-    timelineChart.options.scales.x.max = currentTime;
-
-    // Calculate time elapsed since each data point was added
-    chartData.labels = dataPoints.map((point) => {
-        const timeElapsed = (currentTime - point.x).toFixed(1);
-        return `${timeElapsed}s ago`;
-    });
-
-    timelineChart.update();
-}
-
-
-// ===============================================
-
-
 const DRONE_NAME_LABEL = "DRONE NAME: ";
 const IP_ADDRESS_LABEL = "IP ADDRESS: ";
 const THREAT_LEVEL_LABEL = "THREAT LEVEL: ";
@@ -95,7 +20,7 @@ const windSpeedItem = document.getElementById("wind-speed");
 const batteryPercentageItem = document.getElementById("battery-percentage");
 
 
-function updateState(droneState) {
+function updateStateInformation(droneState) {
     droneNameItem.innerHTML = `<b>${DRONE_NAME_LABEL}</b> ${droneState.name}`;
     ipAddressItem.innerHTML = `<b>${IP_ADDRESS_LABEL}</b> ${droneState.ip}`;
     threatLevelItem.innerHTML = `<b>${THREAT_LEVEL_LABEL}</b> ${droneState.threatLevel}`;
@@ -107,23 +32,96 @@ function updateState(droneState) {
     batteryPercentageItem.innerHTML = `<b>${BATTERY_PERCENTAGE_LABEL}</b> ${droneState.batteryPercentage}`;
 }
 
-function generateRandomDroneState() {
-    let location = generateRandomVector(100, 200, 300, 25);
-    let velocity = generateRandomVector(0, 10, 10, 10);
-    let acceleration = generateRandomVector(2, 3, 10, 2);
-    let tilt = generateRandomVector(5, 4, -10, 8);
-    let windSpeed = generateRandomVector(20, 3, 1, 5);
-    let batteryPercentage = generateRandomNumber(48, 0);
-    let droneState = new DroneState("DRONE A", "192.108.22", "friendly", location, velocity, acceleration, tilt, windSpeed, batteryPercentage);
-    console.log(droneState.location);
-    return droneState;
+
+// ========= GRAPH GUI =========
+
+const dataPoints = [];
+
+const maxDataAge = 60; // 1 minute in seconds
+
+const chart1 = createTimelineChart('timelineChart1');
+const chart2 = createTimelineChart('timelineChart2');
+const chart3 = createTimelineChart('timelineChart3');
+const chart4 = createTimelineChart('timelineChart4');
+const chart5 = createTimelineChart('timelineChart5');
+const chart6 = createTimelineChart('timelineChart6');
+
+
+
+export function updateClient(droneState) {
+    updateStateInformation(droneState);
+    updateChart(chart1, droneState.location[0]);
+    updateAllCharts();
+
 }
 
-function generateRandomVector(minValue1, minValue2, minValue3, randomMultiplier) {
-    num1 = generateRandomNumber(minValue1, randomMultiplier);
-    num2 = generateRandomNumber(minValue2, randomMultiplier);
-    num3 = generateRandomNumber(minValue3, randomMultiplier);
-    return [num1, num2, num3];
+
+function createTimelineChart(canvasId) {
+    const dataPoints = [];
+    const chartData = {
+        labels: [],
+        datasets: [{
+            label: 'Location (X)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            data: dataPoints,
+        }],
+    };
+
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    const timelineChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    min: 0,
+                    max: maxDataAge,
+                },
+                y: {
+                    min: -50,
+                    max: 150, 
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+
+    return { chart: timelineChart, dataPoints: dataPoints, chartData: chartData };
+}
+
+function updateChart(chartObj, newValue) {
+    const currentTime = new Date().getTime() / 1000;
+    chartObj.dataPoints.push({ x: currentTime, y: newValue });
+
+    // Remove data points older than 1 minute
+    while (chartObj.dataPoints.length > 0 && chartObj.dataPoints[0].x < currentTime - maxDataAge) {
+        chartObj.dataPoints.shift();
+    }
+
+    // Update x-axis minimum and maximum values
+    chartObj.chart.options.scales.x.min = currentTime - maxDataAge;
+    chartObj.chart.options.scales.x.max = currentTime;
+
+    // Calculate time elapsed since each data point was added
+    chartObj.chartData.labels = chartObj.dataPoints.map((point) => {
+        const timeElapsed = (currentTime - point.x).toFixed(1);
+        return `${timeElapsed}s ago`;
+    });
+
+    chartObj.chart.update();
+}
+
+function updateAllCharts() {
+    const newValue = generateRandomNumber(0, 150);  // for demonstration, you can replace this logic
+    updateChart(chart1, generateRandomNumber(0, 150));
+    updateChart(chart2, generateRandomNumber(0, 150));
+    updateChart(chart3, generateRandomNumber(0, 150));
+    updateChart(chart4, generateRandomNumber(0, 150));
+    updateChart(chart5, generateRandomNumber(0, 150));
+    updateChart(chart6, generateRandomNumber(0, 150));
 }
 
 

@@ -7,6 +7,7 @@ String startMessageChar = "!";
 String endMessageChar = "@";
 
 void loop() {
+
   int x = 102 + random(0, 10);
   int y = 127 + random(0, 10);
   int z = 299 + random(0, 10);

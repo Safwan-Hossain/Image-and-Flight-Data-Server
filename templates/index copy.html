@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Communication</title>
+</head>
+<body>
+    
+    <div class="grid-container">
+        <!-- Left Column for Charts -->
+        <div id="chart-column">
+            <div class="chart" id="chart-container1">
+                <canvas id="timelineChart1" class="timelineChart"></canvas>
+            </div>
+            <div class="chart" id="chart-container2">
+                <canvas id="timelineChart2" class="timelineChart"></canvas>
+            </div>
+            <div class="chart" id="chart-container3">
+                <canvas id="timelineChart3" class="timelineChart"></canvas>
+            </div>
+            <div class="chart" id="chart-container4">
+                <canvas id="timelineChart4" class="timelineChart"></canvas>
+            </div>
+            <div class="chart" id="chart-container5">
+                <canvas id="timelineChart5" class="timelineChart"></canvas>
+            </div>
+            <div class="chart" id="chart-container6">
+                <canvas id="timelineChart6" class="timelineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="video-container">
+            <img id="video-stream" src="" alt="Video Stream">
+            <div id="video-placeholder">
+                <!-- No video found -->
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        
+        <div class="motor-graph-container">
+            <canvas id="myBarChart"></canvas>
+        </div>
+
+        <div id="vtkContainer"></div>
+
+        <div id="buttonContainer">
+            <h3 id="buttonContainerHeading">Available Drones</h3>
+        </div>
+        <div class="info-list">
+            <h2>Drone State Information</h2>
+            <ul class="drone-state-list">
+                <li class="list-item" id="drone-name"><b>Drone Name: </b></li>
+                <li class="list-item" id="ip-address"><b>IP Address: </b></li>
+                <li class="list-item" id="threat-level"><b>Threat Level: </b> </li>
+                <li class="list-item" id="location"><b>Location: </b></li>
+                <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
+                <li class="list-item" id="acceleration"><b>Acceleration (m/s<sup>2</sup>): </b></li>
+                <li class="list-item" id="tilt"><b>Tilt (degrees): </b></li>
+                <li class="list-item" id="wind-speed"><b>Wind Speed (m/s): </b></li>
+                <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li>
+            </ul>
+        </div>
+    </div>
+    
+    
+    <!-- ========================== STYLE SHEETS ==========================  -->
+    <link rel="stylesheet" type="text/css" href="../style/styles.css">    
+
+    <!-- ========================== THRID PARTY SCRIPTS ========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- <script type="module" src="https://unpkg.com/vtk.js"></script> -->
+
+    <!-- ========================== MY SCRIPTS ========================== -->
+    <script src="../scripts/modules/drone-state.js"></script>
+    <script type="module" src="../scripts/modules/data-parser.js"></script>
+    <script type="module" src="../scripts/modules/visual.js"></script>
+    <!-- <script type="module" src="../scripts/modules/value-updater.js"></script> -->
+    <script type="module" src="../scripts/temp-value-updater.js"></script>
+    <script type="module" src="../scripts/client.js"></script>
+</body>
+</html>

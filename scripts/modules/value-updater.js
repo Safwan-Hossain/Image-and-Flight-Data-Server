@@ -120,3 +120,12 @@ function updateChart(newValue) {
 
     timelineChart.update();
 }
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const canvases = document.querySelectorAll('canvas');
+    canvases.forEach(canvas => {
+        canvas.width = 300;
+        canvas.height = 300;
+    });
+});

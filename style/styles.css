@@ -1,32 +1,378 @@
+
+/* Style for the scrollbar track */
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Light grey track */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Style for the scrollbar handle */
+::-webkit-scrollbar-thumb {
+    background-color: #46bcc922; /* Dark grey handle */
+    border-radius: 8px; /* Rounded corners for the handle */
+}
+
+/* Handle hover style */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Even darker grey on hover */
+}
+
+/* Style for the scrollbar itself (width/height) */
+::-webkit-scrollbar {
+    width: 5px; /* Width of the vertical scrollbar */
+    height: 5px; /* Height of the horizontal scrollbar */
+}
+
 body {
-    margin-top: 10%;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: #f0f0f0;
-}
-
-#chart-container {
-    margin: auto;
-}
-
-.temp {
-    display: flex; 
-    justify-content: space-between; 
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    justify-content: center;
     align-items: center; 
-    width: 100%; 
-    padding: 0px;
+    margin: 0;
+    padding: 50px 0;
+    padding-top: 50px;
+    box-sizing: border-box;
 }
 
-.number-list {
-    margin-left: 10%;
-}
-
-.drone-state-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.list-item {
+#controls-header {
     display: flex;
-    justify-content: space-between; 
-    gap: 10px; 
+    justify-content: center;
+}
+
+#loading-spinner {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(540deg); }
+}
+
+.spin {
+    animation: spin 0.5s ease-out;
+}
+
+#refresh-button {
+    background-color: #4CAF50;
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.05s; 
+}
+
+#refresh-button:hover {
+    background-color: #45a049;
+}
+
+
+#eject-button {
+    background-color: #f44336; 
+    color: white; 
+    padding: 10px 15px; 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background-color 0.05s; 
+}
+
+#eject-button:hover {
+    background-color: #d32f2f; 
+}
+
+#dropdown-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: auto;
+    max-width: 600px;
+}
+
+#dropdown-container h2 {
+    color: #333; 
+    text-align: center; 
+    margin: 0 0 20px; 
+    font-size: 24px; 
+}
+
+.controls button {
+    margin-right: 0px; 
+}
+
+.controls {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+/* Style for the select element */
+#option-select {
+    flex-grow: 1; 
+
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccd0d5;
+    background-color: white;
+    font-size: 16px;
+    color: #4a5568;
+    cursor: pointer;
+    width: calc(100% - 30px); /* Full width minus padding */
+}
+
+#option-select:hover {
+    border-color: #a0aec0;
+}
+
+#option-select:focus {
+    outline: none;
+    border-color: #63b3ed;
+    box-shadow: 0 0 0 1px #63b3ed;
+}
+
+button:disabled {
+    background-color: #cccccc; 
+    cursor: not-allowed; 
+    opacity: 0.5;
+    border: 1px solid #999999; 
+}
+
+button:disabled:hover {
+    background-color: #cccccc; 
+    cursor: not-allowed; 
+    opacity: 0.5;
+    border: 1px solid #999999; 
+}
+
+/* Button Styles */
+button {
+    background-color: #4c51bf; /* Indigo shade */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+button:hover {
+    background-color: #434190;
+}
+
+/* Style for options */
+#option-select option {
+    padding: 10px;
+    background-color: white;
+    color: #333;
+}
+
+.grid-container {
+    display: none;
+    /* display: grid; */
+    grid-template-columns: 300px 1fr 1fr 1fr; /* Adjust to suit your content */
+    grid-template-rows: .15r .15fr 4fr;
+    grid-gap: 10px; /* Space between grid items */
+    grid-template-areas: 
+        "charts video vtk buttons"
+        "charts video motors buttons"
+        "charts info info info"; /* Defining grid areas */
+    padding: 20px; /* Add some padding around the grid */
+    align-items: start; /* Align items to the start of their respective rows */
+}
+
+#chart-column {
+    grid-area: charts;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Enable vertical scrolling */
+    height: 600px; 
+    width: 300px; 
+}
+
+.chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2%;
+    margin-right: 10%;
+    
+    /* border-radius: 15px; */
+
+    width: 100%; 
+    margin-bottom: 10px; /* Space between charts */
+
+    background-color: #f7f7f7; /* Light grey background */
+    border-radius: 5px; /* Rounded corners for the container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Simple shadow for depth */
+}
+
+#vtkContainer {
+    grid-area: vtk;
+    background-color: #000000;
+    height: 200px;
+    width: 200px;
+    margin-right: 15px; /* Spacing between containers */
+}
+
+.video-container {
+    grid-area: video;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Allow the video container to grow and occupy available space */
+    /* border: 10px solid #000000; */
+    height: 400px;
+    width: 700px;
+    overflow: hidden;
+}
+
+#video-stream {
+    display: none;
+    width: 100%;
+}
+
+#video-placeholder {
+    display: flex;
+    background-color: black; /* Black background */
+    color: white; /* White text color */
+    width: 100%; /* Take the full width of the container */
+    height: 100%; /* Take the full height of the container */
+    justify-content: center; /* Center the text horizontally */
+    align-items: center; /* Center the text vertically */
+    font-size: 30px; /* Increase the font size of the text */
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3); /* Light white border */
+    border-top: 4px solid rgb(223, 20, 20); /* Solid white top border */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-left: 10px; 
+}
+
+/* @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} */
+
+.right-column {
+    display: grid;
+    grid-template-rows: auto; /* Adjust based on your content */
+    grid-template-columns: repeat(2, 1fr); /* Example for two columns */
+    gap: 10px; /* Space between grid items */
+    height: 100%;
+    justify-content: space-between; /* Space out children elements */
+}
+
+/* Style for the video container */
+.container {
+    display: flex;
+    justify-content: center; /* Center the video feed horizontally */
+    align-items: center; /* Center the video feed vertically */
+    flex-grow: 1; /* Allow the video container to grow and occupy available space */
+}
+
+#buttonContainer {
+    align-self: flex-end; /* Align buttons to the top right */
+}
+
+
+.info-list {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.info-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.motor-graph-container {
+    grid-area: motors;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Style the button container */
+#buttonContainer {
+    grid-area: buttons;
+    align-self: flex-start; 
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    justify-content: start; /* Align items to the start of the container */
+    /* width: 100px; */
+    margin: 10px;
+    padding: 10px;
+    background-color: #f7f7f7; /* Light grey background */
+    border-radius: 5px; /* Rounded corners for the container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Simple shadow for depth */
+    height: auto; /* Height to fit content */
+}
+
+
+/* Style the heading */
+#buttonContainerHeading {
+    margin-bottom: 15px; /* Spacing between the heading and the first button */
+    font-size: 16px;
+    color: #333; /* Dark grey color for text */
+    text-align: center;
+}
+
+
+/* General button styling */
+#buttonContainer button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px; /* Space between buttons */
+    width: 80%; /* Make buttons occupy most of the container width */
+    text-align: center; /* Center text within button */
+    border-radius: 4px; /* Slightly rounded corners for buttons */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Last child button margin bottom */
+#buttonContainer button:last-child {
+    margin-bottom: 0;
+}
+
+/* Change button background color slightly on hover */
+#buttonContainer button:hover {
+    background-color: #0056b3;
+}
+
+/* Further styling when button is clicked (active) */
+#buttonContainer button:active {
+    background-color: #003885;
+    transform: translateY(2px);
+}
+
+/* Optional: Style for disabled buttons */
+#buttonContainer button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
