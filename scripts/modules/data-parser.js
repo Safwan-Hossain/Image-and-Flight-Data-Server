@@ -14,7 +14,7 @@ export class DataParser {
     static parseData(data) {
         const droneState = new DroneState();
         const parsedData = data.split(DATA_DELIM);
-    
+        
         const name = parsedData[NAME_INDEX];
         const ip = parsedData[IP_INDEX];
         const threatLevel = parsedData[THREAT_INDEX];

@@ -1,3 +1,15 @@
+
+
+
+
+
+
+// =========================================== IMPORTANT =========================================== //
+// THIS IS AN OLD CLASS AND IS ONLY KEPT FOR REFERENCE. THE NEWER VERSION FOR THIS CLASS IS MAIN.MJS //
+// =========================================== ========= =========================================== //
+
+
+
 // import * as socketIo from 'socket.io';
 import express from "express";
 import http from 'http';

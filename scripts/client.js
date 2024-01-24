@@ -1,17 +1,32 @@
 import { DataParser } from './modules/data-parser.js';
 // import { updateClient as updateWebpage } from './modules/value-updater.js';
-import { updateClient as updateWebpage } from './temp-value-updater.js';
 import { Config } from '../node_server/src/server-config.js';
+import { UserCommData } from '../node_server/src/data/communication-data.js';
 
 import { ClientSocket } from './modules/client-socket.js'
 
+
+// TODO - On load, check the port options, if any of the ports are selected but they arent connected, change back to default
+
 const clientSocket = new ClientSocket();
 clientSocket.tryConnectingToServer();
-setInterval(() => {
 
-  clientSocket.getSerialPortData();
-}, 3000);
 
+function requestSerialPortData() {
+  const request = UserCommData.generateGetPortDataRequest();
+  clientSocket.sendUserInput(request);
+}
+
+function requestToDisconnectFromSerial() {
+  const request = UserCommData.generateSerialDisconnectRequest();
+  clientSocket.sendUserInput(request);
+}
+
+function requestToConnectToNewSerial(newSerialPath) {
+  const request = UserCommData.generateSerialConnectRequest(newSerialPath);
+  console.log(request);
+  clientSocket.sendUserInput(request);
+}
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const ejectButton = document.getElementById('eject-button');
@@ -34,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Function to be called when an option is selected
     function handleOptionSelect(value) {
-      clientSocket.sendNewArduinoPathToServer(value);
+      requestToConnectToNewSerial(value);
     }
 
     
@@ -44,7 +59,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function handleRefreshButtonClick(event) {
   const icon = event.currentTarget.querySelector('i');
   addSpinAnimation(icon);
-  clientSocket.getSerialPortData();
+  // clientSocket.getSerialPortData();
+  requestSerialPortData();
 }
 
 function addSpinAnimation(element) {
@@ -57,7 +73,7 @@ function addSpinAnimation(element) {
 }
 
 function handleDisconnectButtonClick() {
-  clientSocket.disconnectCurrentSerialPort();
+  requestToDisconnectFromSerial();
 }
 
 function handleButtonClick(event) {

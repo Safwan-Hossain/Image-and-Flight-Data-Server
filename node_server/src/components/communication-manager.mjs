@@ -1,41 +1,25 @@
 
 import { SocketHandler } from "./socket-handler.mjs";
 import { SerialPortHandler } from "./serial-port-handler.mjs"
+import { Timer } from "./timer.js";
+import { REQUEST_TYPES, TARGETS, ACTIONS, CommunicationData, UserCommData } from "../data/communication-data.js";
+import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../data/event-tags.js'
+import { logger } from '../logger/logger.js';
 
-// Events that are sent to the server
-const SERVER_EVENT_TAGS = {
-    CAMERA_IMAGE_DATA: 'camera_image_data_to_server',
-    CAMERA_SYSTEM_DATA: 'camera_system_data_to_server',
-    USER_INPUT: 'user_input_to_server',
-    USER_SYSTEM_DATA: 'user_system_data_to_server',
-    SERIAL_DATA: 'serial_data_to_server',
-}
-
-// Events that are broadcasted from the server to a client (client/camera/serial)
-const CLIENT_EVENT_TAGS = {
-    CAMERA_IMAGE_DATA: 'camera_image_data_to_client',
-    CAMERA_SYSTEM_DATA: 'camera_system_data_to_client',
-    USER_INPUT: 'user_input_to_client',
-    USER_SYSTEM_DATA: 'user_system_data_to_client',
-    SERIAL_DATA: 'serial_data_to_client',
-}
 
 export class CommunicationManager {
     constructor(server, customOptions = {}) {   
         this.socketHandler = new SocketHandler(server);
         this.serialHandler = new SerialPortHandler(customOptions);
+        this.serialPortsTimer = new Timer(this.fetchAndReturnSerialPorts.bind(this), 1000);
     }
 
     startListening() {
-        // Get port data from serial and display to user once user is connected
+        this.socketHandler.startListening();
     }
 
     registerEvents() {
-        this.serialHandler.on('data', (dataFromArduino) => this.socketHandler.sendDroneDataToClient(dataFromArduino)); // drone data from serial is forwarded
         this.socketHandler.on('user_input_to_arduino', () => {}); // TODO
-        this.socketHandler.on('port-list', (data) => { this.fetchAndReturnSerialPorts() }) // user requests port list
-        this.socketHandler.on('new_arduino_port', (port) => { this.serialHandler.tryConnectingToPort(port) }) // user requests port connection
-        this.socketHandler.on('disconnect_serial_port', () => this.tryDisconnectingPort()) // user requests current port to be disconnected
 
         // CAMERA EVENTS
         this.socketHandler.on(SERVER_EVENT_TAGS.CAMERA_IMAGE_DATA, (imageData) => {this.handleImageData(imageData)}) // Image data
@@ -54,47 +38,84 @@ export class CommunicationManager {
     }
 
 
-    handleUserInput(userInput) {
-        this.socketHandler.sendDataToCamera(CLIENT_EVENT_TAGS.USER_INPUT, userInput);
+    handleUserInput(userInput) {       
+        if (userInput.requestType === REQUEST_TYPES.DATA_REQUEST) {
+            if (userInput.target === TARGETS.SERIAL) {
+                if (userInput.action === ACTIONS.SERIAL.GET_PORT_LIST) {
+                    this.fetchAndReturnSerialPorts();
+                }
+            }
+        }
+        else if (userInput.requestType === REQUEST_TYPES.CONFIG_UPDATE) {
+            if (userInput.target === TARGETS.SERIAL) {
+                switch (userInput.action) {
+                    case ACTIONS.SERIAL.CONNECT:
+                        this.tryConnectingToNewPort(userInput.value);
+                        break;
+                    case ACTIONS.SERIAL.DISCONNECT:
+                        this.tryDisconnectingPort();
+                        break;
+                    case ACTIONS.SERIAL.RECONNECT:
+                        // TODO
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else if (userInput.requestType === REQUEST_TYPES.DATA_UPDATE) {
+            if (userInput.action === ACTIONS.GENERAL.TARGET_LOCK) {
+                this.handleTargetLock(userInput.value)
+            }
+        }
     }
 
+
+    handleTargetLock() {
+        this.socketHandler.sendDataToCamera(CLIENT_EVENT_TAGS.USER_INPUT, userInput);
+    }
     
     handleCameraSystemData(cameraSystemData) {
-        // cameraSystemData.type: connection
-        // cameraSystemData.subtype: null
-        // cameraSystemData.error-type: disconnected unexpectedly
-        // cameraSystemData.error-message: null
-        // cameraSystemData.action: reconnecting
-
-        
-        // cameraSystemData.type: connection
-        // cameraSystemData.subtype: disconnected succesfully
-        // cameraSystemData.error-type: null
-        // cameraSystemData.error-message: null
-        // cameraSystemData.action: reconnecting
+    
     }
 
     handleUserSystemData(userSystemData) {
+        if (userSystemData.requestType === REQUEST_TYPES.DATA_UPDATE) {
+            if (userSystemData.target === TARGETS.USER) {
+                if (userSystemData.action === ACTIONS.GENERAL.NEW_CONNECTION) {
+                    this.fetchAndReturnSerialPorts
+                    this.serialPortsTimer.start();
+                }
+            }
+        }
 
     }
 
     handleSerialData(serialData) {
-        // this.socketHandler.sendDroneDataToClient(serialData)
         this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.SERIAL_DATA, serialData);
     }
 
+    tryConnectingToNewPort(newPort) {
+        this.serialHandler.tryConnectingToPort(newPort)
+    }
 
     tryDisconnectingPort() {
         this.serialHandler.tryDisconnectingFromCurrentPort()
         this.fetchAndReturnSerialPorts();
     }
 
+    sendPortDataToClient(ports) {
+        const portRequest = UserCommData.generatePortDataUpdate(ports);
+        this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.USER_SYSTEM_DATA, portRequest);
+    }
+
+    // rename to sendSerialPortDataToUser
     async fetchAndReturnSerialPorts() {
         try {
             const ports = await this.serialHandler.getListOfPorts();
-            this.socketHandler.sendPortDataToClient(ports);
+            this.sendPortDataToClient(ports);
         } catch (error) {
-            console.error('Error getting list of ports:', error);
+            logger.error('Error getting list of ports:', error);
         }
     }
 }

@@ -22,6 +22,18 @@
     height: 5px; /* Height of the horizontal scrollbar */
 }
 
+
+#drone-state-divider {
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
+}
+
+#drone-state-divider h2{
+    margin: 0;
+}
+
+
 body {
     color: #333;
     font-family: 'Arial', sans-serif;
@@ -29,8 +41,8 @@ body {
     justify-content: center;
     align-items: center; 
     margin: 0;
-    padding: 50px 0;
-    padding-top: 50px;
+    /* padding: 50px 0; */
+    /* padding-top: 50px; */
     box-sizing: border-box;
 }
 
@@ -53,7 +65,7 @@ body {
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
-    100% { transform: rotate(540deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .spin {
@@ -186,7 +198,7 @@ button:hover {
     grid-gap: 10px; /* Space between grid items */
     grid-template-areas: 
         "charts video vtk buttons"
-        "charts video motors buttons"
+        "charts video motors battery"
         "charts info info info"; /* Defining grid areas */
     padding: 20px; /* Add some padding around the grid */
     align-items: start; /* Align items to the start of their respective rows */
@@ -218,8 +230,14 @@ button:hover {
 }
 
 #vtkContainer {
+    background-color: #52576e;
+    border: 2px solid #4caf50;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
+    overflow: hidden; /* This will clip the VTK render window */
+
     grid-area: vtk;
-    background-color: #000000;
     height: 200px;
     width: 200px;
     margin-right: 15px; /* Spacing between containers */
@@ -232,7 +250,7 @@ button:hover {
     align-items: center;
     flex-grow: 1; /* Allow the video container to grow and occupy available space */
     /* border: 10px solid #000000; */
-    height: 400px;
+    height: 430px;
     width: 700px;
     overflow: hidden;
 }
@@ -295,7 +313,11 @@ button:hover {
     display: flex;
     flex-direction: column;
     padding: 15px;
-    border: 1px solid #ddd;
+
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
 .info-list ul {
@@ -303,30 +325,48 @@ button:hover {
     padding: 0;
 }
 
+.info-list h2 {
+    margin:0;
+}
+
+
 .motor-graph-container {
     grid-area: motors;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    padding: 25px;
+    background-color: #fff;
+    border: 2px solid #4caf50;
+    border-radius: 15px;
+
+
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 
 /* Style the button container */
 #buttonContainer {
+
+    background-color: #fff;
+    border: 2px solid #4caf50;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);  
+    
+
     grid-area: buttons;
     align-self: flex-start; 
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
     align-items: center; /* Center buttons horizontally */
     justify-content: start; /* Align items to the start of the container */
-    /* width: 100px; */
-    margin: 10px;
+    width: 180px;
+    /* margin: 10px; */
     padding: 10px;
-    background-color: #f7f7f7; /* Light grey background */
-    border-radius: 5px; /* Rounded corners for the container */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Simple shadow for depth */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  */
     height: auto; /* Height to fit content */
 }
 
@@ -347,7 +387,7 @@ button:hover {
     border: none;
     padding: 10px;
     margin-bottom: 10px; /* Space between buttons */
-    width: 80%; /* Make buttons occupy most of the container width */
+    width: 70%; /* Make buttons occupy most of the container width */
     text-align: center; /* Center text within button */
     border-radius: 4px; /* Slightly rounded corners for buttons */
     cursor: pointer;

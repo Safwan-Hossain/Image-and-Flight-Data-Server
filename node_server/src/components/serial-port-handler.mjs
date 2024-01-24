@@ -1,9 +1,21 @@
 import { EventEmitter } from 'events';
 import { SerialPort, ReadlineParser } from 'serialport';
 import { Config } from '../server-config.js';
+import { SerialPortMockHandler } from '../mock/mock-serial-port.mjs';
+import { SERVER_EVENT_TAGS } from '../data/event-tags.js'
+import { logger } from '../logger/logger.js';
+
 
 const ARDUINO_PORT = Config.server.arduinoPort;
-const DATA_EVENT_TAG = "data";
+const MOCK_SERIAL_PATH = SerialPortMockHandler.mockSerialPortData.path;
+
+// These are in-built event tags from SerialPort
+const DEFAULT_SERIAL_TAGS = {
+    DATA: 'data',
+    OPEN: 'open',
+    CLOSE: 'close',
+    ERROR: 'error'
+}
 
 const DEFAULT_OPTIONS = {
     baudRate: 9600,
@@ -18,44 +30,46 @@ export class SerialPortHandler extends EventEmitter {
         super()
         // custom options will override matching default options
         this.options = { ...DEFAULT_OPTIONS, ...customOptions };
+        this.serialPortMockHandler = new SerialPortMockHandler(this.options);
         this.serialPort = null;
     }
 
     async getListOfPorts() {
-        try {
-            const ports = await SerialPort.list();
-            ports.forEach(port => {
-                port.isAlreadyConnected = (this.serialPort?.settings.path === port.path);
-            });
-            return ports;
-        } catch (error) {
-            console.error("Error listing ports: ", error);
-            throw error;
-        }
+        const ports = await SerialPort.list();
+        ports.push(SerialPortMockHandler.mockSerialPortData);
+        ports.forEach(port => {
+            port.isAlreadyConnected = (this.serialPort?.settings.path === port.path);
+        });
+        return ports;
     }
 
 
     tryConnectingToPort(path = ARDUINO_PORT) {
-        tryDisconnectingFromCurrentPort();
-        this.serialPort = new SerialPort({path: path, ...this.options});
+        this.tryDisconnectingFromCurrentPort();
+        if (path === MOCK_SERIAL_PATH) {
+            this.serialPort = this.serialPortMockHandler.createSerialPortMock();
+        } 
+        else {
+            this.serialPort = new SerialPort({path: path, ...this.options});
+        }
+        
         const parser = this.attachParserToSerial();
+        parser.on(DEFAULT_SERIAL_TAGS.DATA, (dataFromArduino) => this.emit(SERVER_EVENT_TAGS.SERIAL_DATA, dataFromArduino));
         
-        parser.on(DATA_EVENT_TAG, (dataFromArduino) => this.emit(DATA_EVENT_TAG, dataFromArduino));
-        
-        this.serialPort.on('error', (error) => {
+        this.serialPort.on(DEFAULT_SERIAL_TAGS.ERROR, (error) => {
             // Add error handling 
-            console.error("Serial Port Error: ", error);
+            logger.error("Serial Port Error: ", error);
         });
         
-        this.serialPort.on('open', () => this.onSerialPortOpened());
-        this.serialPort.on('close', () => this.onSerialPortClosed());
+        this.serialPort.on(DEFAULT_SERIAL_TAGS.OPEN, () => this.onSerialPortOpened());
+        this.serialPort.on(DEFAULT_SERIAL_TAGS.CLOSE, () => this.onSerialPortClosed());
     };
 
     tryDisconnectingFromCurrentPort() {
-        if (this.isPortConnected) {
+        if (this.isPortConnected()) {
             this.serialPort.close((error) => {
                 if (error) {
-                    console.error("Error closing the port: ", error);
+                    logger.error("Failed to close serial port: ", error);
                     return false;
                 } else {
                     return true;
@@ -70,13 +84,13 @@ export class SerialPortHandler extends EventEmitter {
 
     onSerialPortOpened() {
         const path = this.serialPort.settings.path
-        console.log(`Connected to Serial Port: ${path}`);
+        logger.info(`Connected to Serial Port: ${path}`);
     }
 
     onSerialPortClosed() {
         const path = this.serialPort.settings.path
         this.serialPort = null;
-        console.log(`Disconnected from Serial Port: ${path}`);
+        logger.info(`Disconnected from Serial Port: ${path}`);
     }
 
     attachParserToSerial() {

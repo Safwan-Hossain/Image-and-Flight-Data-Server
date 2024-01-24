@@ -1,8 +1,12 @@
 import { Config } from '../../node_server/src/server-config.js';
 import { DataParser } from './data-parser.js';
+import { UserCommData } from '../../node_server/src/data/communication-data.js'
+import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../../node_server/src/data/event-tags.js';
+import { CLIENT_ROLES } from '../../node_server/src/data/roles.js';
+import { tempUpdateView } from '../modules/visual.js'
+
 
 const SERVER_PORT = Config.server.serverPort;
-const CLIENT_ROLE_TAG = "client";
 
 const SETTING_EVENT_TAG = 'setting';
 const PORT_LIST_EVENT_TAG = 'port-list';
@@ -17,46 +21,43 @@ const SETTING_TYPES = {
     SERIAL_CONNECTION: "serial_connection",
 }
 
+// These are in-built event tags from socket.io
+const DEFAULT_SOCKET_TAGS = {
+    CONNECT: 'connect',
+    CONNECT_ERROR: 'connect_error',
+    ERROR: 'error'
+}
+
+
 export class ClientSocket {
     constructor() {
 
     }
    
     tryConnectingToServer() {
-        const tempSocket = io('http://localhost:' + SERVER_PORT, { query: { role: CLIENT_ROLE_TAG }});
+        const tempSocket = io('http://localhost:' + SERVER_PORT, { query: { role: CLIENT_ROLES.USER }});
 
-        tempSocket.on('connect', () => {
+        tempSocket.on(DEFAULT_SOCKET_TAGS.CONNECT, () => {
             console.log('Successfully connected to the server.');
             this.socket = tempSocket;
             this.registerEvents()
         });
 
-        tempSocket.on('connect_error', (error) => {
+        tempSocket.on(DEFAULT_SOCKET_TAGS.CONNECT_ERROR, (error) => {
             console.error('Failed to connect to server:', error);
         });
 
-        tempSocket.on('error', (error) => {
+        tempSocket.on(DEFAULT_SOCKET_TAGS.ERROR, (error) => {
             console.error('Socket error:', error);
         });
     }
 
     registerEvents() {
-        this.socket.on('connect', () => {
-            console.log('Successfully connected to the server');
-        });
-          
-        this.socket.on('connect_error', (error) => {
-            console.error('Connection error:', error);
-        });
-          
-        this.socket.on('error', (error) => {
-            console.error('Socket error:', error);
-        });  
         
-        this.socket.on('arduinoData', (data) => {
-            console.log("gotData")
+        this.socket.on(CLIENT_EVENT_TAGS.SERIAL_DATA, (data) => {
             const droneState = DataParser.parseData(data);
-            updateWebpage(droneState);
+            // console.log(droneState);
+            tempUpdateView(data);
         });
 
         this.socket.on('frame2', (data) => {
@@ -75,12 +76,22 @@ export class ClientSocket {
             }
         });
         
-        this.socket.on(PORT_LIST_EVENT_TAG, (data) => {
-            this.onReceiveSerialPortList(data);
+        this.socket.on(CLIENT_EVENT_TAGS.USER_SYSTEM_DATA, (data) => {
+            this.onReceiveSerialPortList(data.value);
         });
     }
 
+    sendUserInput(input) {
+        this.socket.emit(SERVER_EVENT_TAGS.USER_INPUT, input);
+    }
+
+    sendSystemData(systemData) {
+        this.socket.emit(SERVER_EVENT_TAGS.USER_SYSTEM_DATA, systemData);
+    }
+    
     getSerialPortData() {
+        const request = UserCommData.generateGetPortDataRequest();
+        // console.log(request);
         this.socket.emit(INFORMATION_REQUEST_EVENT_TAG, PORT_LIST_EVENT_TAG);
     }
 
@@ -112,7 +123,7 @@ export class ClientSocket {
     
         Array.from(selectElement.options).forEach(option => {
             // Check if the option's path is not in the serialPorts list and it's not the selected option
-            if (!existingPortPaths.has(option.dataset.path) && option.value !== selectedPath) {
+            if (!existingPortPaths.has(option.dataset.path) && option.value !== selectedPath && option.value != 'default') {
                 selectElement.removeChild(option);
             }
         });
@@ -131,6 +142,12 @@ export class ClientSocket {
                 if (serialPort.isAlreadyConnected === true) {
                     option.selected = true; 
                     option.style.backgroundColor = 'yellow'; 
+                    
+                    // TEMP
+                    document.getElementById('dropdown-container').style.display = 'none';
+                    const mainContent = document.getElementsByClassName('grid-container')[0];
+                    mainContent.style.display = 'grid';
+                    // TEMP
                 }
             }
             

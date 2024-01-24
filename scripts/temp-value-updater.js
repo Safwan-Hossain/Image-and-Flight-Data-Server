@@ -48,11 +48,18 @@ const chart6 = createTimelineChart('timelineChart6');
 
 
 
-export function updateClient(droneState) {
-    updateStateInformation(droneState);
-    updateChart(chart1, droneState.location[0]);
-    updateAllCharts();
+// export function tempUpdateView(rawData) {
+ 
 
+//     updateStateInformation(droneState);
+//     updateChart(chart1, droneState.location[0]);
+//     updateAllCharts();
+
+// }
+
+
+function formatMotorSignal(number) {
+    return (number - 1000) / 1000;
 }
 
 

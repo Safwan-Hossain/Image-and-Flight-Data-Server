@@ -1,4 +1,5 @@
 import 'https://unpkg.com/vtk.js';
+import { setChargeRate } from '../modules/battery.js'
 
 const { STLReader, PolyDataMapper, Actor, Renderer, RenderWindow, OpenGLRenderWindow, InteractorStyleTrackballCamera, RenderWindowInteractor } = vtk.Rendering.Core;
 
@@ -32,6 +33,34 @@ const stlURL = '../../python/stl/drone_model_centered.stl';
 //     updateChartData(motors);
 // });
 
+export function tempUpdateView(data) {
+    const ARRAY_DELIM  = '|';
+    const DATA_DELIM  = ',';
+
+    const ROLL_INDEX = 0;
+    const PITCH_INDEX = 1;
+    const YAW_INDEX = 2;
+
+    const parsedData = data.split(DATA_DELIM);
+    const BATTERY_INDEX = 2;
+    const MOTOR_SIGNAL_INDEX = 0;
+    const ORIENTATION_INDEX = 1;
+    
+    let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);
+    let orientation = parsedData[ORIENTATION_INDEX].split(ARRAY_DELIM);
+    let batteryChargeValue = parsedData[BATTERY_INDEX].split(ARRAY_DELIM);
+
+    motors = motors.map(motorSignal => formatMotorSignal(motorSignal));
+
+    // document.getElementById('input-roll').value = orientation[ROLL_INDEX];
+    // document.getElementById('input-pitch').value = orientation[PITCH_INDEX];
+    // document.getElementById('input-yaw').value = orientation[YAW_INDEX];
+
+    updateOrientation(orientation);
+    updateChartData(motors);
+    setChargeRate(batteryChargeValue)
+}
+
 function formatMotorSignal(number) {
     return (number - 1000) / 1000;
 }
@@ -47,7 +76,7 @@ const vtkVolume   = vtk.Rendering.Core.vtkVolume;
 // Create and initialize a generic render window
 const genericRenderWindow = vtkGenericRenderWindow.newInstance();
 genericRenderWindow.setContainer(vtkContainer);
-genericRenderWindow.resize();
+// genericRenderWindow.resize();
 
 // Get the renderer, render window, and interactor from the generic render window
 const renderer = genericRenderWindow.getRenderer();
@@ -98,14 +127,19 @@ window.onresize = function () {
 let lastRoll = 0, lastPitch = 0, lastYaw = 0;
 actor.rotateX(-90);
 
-function updateOrientation() {
-    let roll = parseFloat(document.getElementById('input-roll').value) || 0;
-    let pitch = parseFloat(document.getElementById('input-pitch').value) || 0;
-    let yaw = parseFloat(document.getElementById('input-yaw').value) || 0;
+function updateOrientation(orientation) {
+    // let roll = parseFloat(document.getElementById('input-roll').value) || 0;
+    // let pitch = parseFloat(document.getElementById('input-pitch').value) || 0;
+    // let yaw = parseFloat(document.getElementById('input-yaw').value) || 0;
 
-    document.getElementById('roll-value').innerText = roll;
-    document.getElementById('pitch-value').innerText = pitch;
-    document.getElementById('yaw-value').innerText = yaw;
+    // document.getElementById('roll-value').innerText = roll;
+    // document.getElementById('pitch-value').innerText = pitch;
+    // document.getElementById('yaw-value').innerText = yaw;
+
+    
+    let roll = orientation[0];
+    let pitch = orientation[0];
+    let yaw = orientation[0];
     
     let deltaRoll = roll - lastRoll;
     let deltaPitch = pitch - lastPitch;

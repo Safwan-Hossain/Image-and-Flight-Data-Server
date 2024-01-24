@@ -20,10 +20,11 @@ const windSpeedItem = document.getElementById("wind-speed");
 const batteryPercentageItem = document.getElementById("battery-percentage");
 
 
-export function updateClient(droneState) {
+export function updateMainView(droneState) {
     updateStateInformation(droneState);
     updateChart(droneState.location[0]);
 }
+
 
 function updateStateInformation(droneState) {
     droneNameItem.innerHTML = `<b>${DRONE_NAME_LABEL}</b> ${droneState.name}`;

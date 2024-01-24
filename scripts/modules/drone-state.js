@@ -17,7 +17,7 @@ class DroneState {
 
 
     formatArray(array) {
-      if (array == undefined) {
+      if (array == undefined || array.trim().length == 0 ) {
         return [];
       }
       return array.map(value => this.formatFloat(parseFloat(value)));

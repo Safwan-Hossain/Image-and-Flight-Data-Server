@@ -8,6 +8,135 @@
     <link href="../style/assets/fontawesome/css/solid.css" rel="stylesheet">
     <link href="../style/assets/fontawesome/css/regular.css" rel="stylesheet">
     <link href="../style/assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --lightning-animation-duration: 0.5s; 
+        }
+
+        .battery-container {
+            width: 200px;
+            height: 200px;
+            font-size: 15px;
+
+            background-color: #fff;
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        #chargeSlider {
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        #batteryPercentage {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #chargeRate {
+            font-size: 15px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        /* Additional styling for slider label */
+        div {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        #lightningSymbol {
+            color: yellow;
+            font-size: 20px;
+            animation: pulse var(--lightning-animation-duration);
+            display: none;
+            margin: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+
+
+        .battery {
+            width: 40px;
+            height: 160px;
+            border: 4px solid #333;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            padding-top: 0;
+            margin-top: 0;
+        }
+
+        .battery-top {
+            content: '';
+            position: relative;
+            top: 0px; 
+            width: 15px;
+            height: 9px;
+            background-color: #333;
+            border-radius: 2px 2px 0 0;
+            overflow: visible;
+            z-index: 1;
+        }
+
+        
+        @keyframes chargeAnimation {
+            from { height: 0; }
+            to { height: 100%; }
+        }
+
+        .charge {
+            width: 100%;
+            height: 0;
+            background-color: #4caf50;
+            position: absolute;
+            bottom: 0;
+            transition: height 0.1s linear;
+        }
+
+        button {
+            background-color: #4caf50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #367c39;
+        }
+
+        button:active {
+            background-color: #285a29;
+        }
+
+    </style>
 </head>
 <body>
     <!-- Dropdown Menu -->
@@ -18,9 +147,9 @@
         </div>
         <div class="controls">
             <select id="option-select">
-                <option value="">Select an Option</option>
+                <option value="default">Select an Option</option>
             </select>
-            <button disabled type="button" id="eject-button" title="Disconnect">
+            <button type="button" id="eject-button" title="Disconnect">
                 <i class="fa-solid fa-eject fa-xl"></i>
             </button>
             <button id="refresh-button" title="Refresh List">
@@ -70,28 +199,51 @@
         <div id="buttonContainer">
             <h3 id="buttonContainerHeading">Available Drones</h3>
         </div>
+
+        <!-- === BATTERY === -->
+        <div class="battery-container">
+            <div class="battery-top"></div>
+            <div class="battery">
+                <div class="charge"></div>
+                <div id="lightningSymbol" style="display: none;">⚡</div>
+            </div>
+            <div id="batteryPercentage">0%</div>
+            <div>Charge Rate: <span id="chargeRate">511</span></div>
+        </div>
+        <!-- === BATTERY === -->
+
+
         <div class="info-list">
             <h2>Drone State Information</h2>
-            <ul class="drone-state-list">
-                <li class="list-item" id="drone-name"><b>Drone Name: </b></li>
-                <li class="list-item" id="ip-address"><b>IP Address: </b></li>
-                <li class="list-item" id="threat-level"><b>Threat Level: </b> </li>
-                <li class="list-item" id="location"><b>Location: </b></li>
-                <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
-                <li class="list-item" id="acceleration"><b>Acceleration (m/s<sup>2</sup>): </b></li>
-                <li class="list-item" id="tilt"><b>Tilt (degrees): </b></li>
-                <li class="list-item" id="wind-speed"><b>Wind Speed (m/s): </b></li>
-                <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li>
-            </ul>
+            <div id="drone-state-divider">
+                <ul class="drone-state-list">
+                    <li class="list-item" id="drone-name"><b>Drone Name: </b></li>
+                    <li class="list-item" id="ip-address"><b>IP Address: </b></li>
+                    <li class="list-item" id="threat-level"><b>Threat Level: </b> </li>
+                    <li class="list-item" id="location"><b>Location: </b></li>
+    
+                </ul>
+                
+                <ul class="drone-state-list">
+                    
+                    <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
+                    <li class="list-item" id="acceleration"><b>Acceleration (m/s<sup>2</sup>): </b></li>
+                    <li class="list-item" id="tilt"><b>Tilt (degrees): </b></li>
+                    <li class="list-item" id="wind-speed"><b>Wind Speed (m/s): </b></li>
+                    <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li>
+                </ul>
+            </div>
         </div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            
             const selectElement = document.getElementById('option-select');
             const spinner = document.getElementById('loading-spinner');
             const mainContent = document.getElementsByClassName('grid-container')[0];
     
+
             selectElement.addEventListener('change', function () {
                 if (this.value) {
                     spinner.style.display = 'inline-block';
@@ -121,6 +273,7 @@
     <script src="../scripts/modules/drone-state.js"></script>
     <script type="module" src="../scripts/modules/data-parser.js"></script>
     <script type="module" src="../scripts/modules/visual.js"></script>
+    <script type="module" src="../scripts/modules/battery.js"></script>
     <!-- <script type="module" src="../scripts/modules/value-updater.js"></script> -->
     <script type="module" src="../scripts/temp-value-updater.js"></script>
     <script type="module" src="../scripts/client.js"></script>
