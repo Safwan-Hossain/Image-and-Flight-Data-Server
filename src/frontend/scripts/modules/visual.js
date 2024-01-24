@@ -3,8 +3,6 @@ import { setChargeRate } from './battery.js'
 
 const { STLReader, PolyDataMapper, Actor, Renderer, RenderWindow, OpenGLRenderWindow, InteractorStyleTrackballCamera, RenderWindowInteractor } = vtk.Rendering.Core;
 
-const SERVER_PORT = 3000;
-// const socket = io('http://localhost:' + SERVER_PORT);
 const vtkContainer = document.getElementById('vtkContainer');
 const stlURL = '../../../assets/stl/drone_model_centered.stl';
 
