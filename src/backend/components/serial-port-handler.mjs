@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import { SerialPort, ReadlineParser } from 'serialport';
-import { Config } from '../server-config.js';
+import { Config } from '../../shared-data/server-config.js';
 import { SerialPortMockHandler } from '../mock/mock-serial-port.mjs';
-import { SERVER_EVENT_TAGS } from '../data/event-tags.js'
+import { SERVER_EVENT_TAGS } from '../../shared-data/event-tags.js'
 import { logger } from '../logger/logger.js';
 
 

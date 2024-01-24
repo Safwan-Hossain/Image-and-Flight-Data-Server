@@ -2,8 +2,8 @@
 import { SocketHandler } from "./socket-handler.mjs";
 import { SerialPortHandler } from "./serial-port-handler.mjs"
 import { Timer } from "./timer.js";
-import { REQUEST_TYPES, TARGETS, ACTIONS, CommunicationData, UserCommData } from "../data/communication-data.js";
-import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../data/event-tags.js'
+import { REQUEST_TYPES, TARGETS, ACTIONS, CommunicationData, UserCommData } from "../../shared-data/communication-data.js";
+import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../../shared-data/event-tags.js'
 import { logger } from '../logger/logger.js';
 
 

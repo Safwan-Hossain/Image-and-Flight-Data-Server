@@ -1,9 +1,9 @@
 import { EventEmitter } from 'events';
 import { Server } from 'socket.io';
 import { logger } from '../logger/logger.js';
-import { UserCommData } from '../data/communication-data.js';
-import { SERVER_EVENT_TAGS } from '../data/event-tags.js'
-import { CLIENT_ROLES } from '../data/roles.js'
+import { UserCommData } from '../../shared-data/communication-data.js';
+import { SERVER_EVENT_TAGS } from '../../shared-data/event-tags.js'
+import { CLIENT_ROLES } from '../../shared-data/roles.js'
 
 
 const SOCKET_CONNECTION_EVENT_TAG = "connection";

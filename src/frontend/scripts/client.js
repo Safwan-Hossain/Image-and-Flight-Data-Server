@@ -1,8 +1,5 @@
-import { DataParser } from './modules/data-parser.js';
 // import { updateClient as updateWebpage } from './modules/value-updater.js';
-import { Config } from '../node_server/src/server-config.js';
-import { UserCommData } from '../node_server/src/data/communication-data.js';
-
+import { UserCommData } from '../../shared-data/communication-data.js';
 import { ClientSocket } from './modules/client-socket.js'
 
 

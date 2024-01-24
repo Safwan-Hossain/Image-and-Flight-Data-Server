@@ -1,37 +1,13 @@
 import 'https://unpkg.com/vtk.js';
-import { setChargeRate } from '../modules/battery.js'
+import { setChargeRate } from './battery.js'
 
 const { STLReader, PolyDataMapper, Actor, Renderer, RenderWindow, OpenGLRenderWindow, InteractorStyleTrackballCamera, RenderWindowInteractor } = vtk.Rendering.Core;
 
 const SERVER_PORT = 3000;
 // const socket = io('http://localhost:' + SERVER_PORT);
 const vtkContainer = document.getElementById('vtkContainer');
-const stlURL = '../../python/stl/drone_model_centered.stl';
+const stlURL = '../../../assets/stl/drone_model_centered.stl';
 
-// socket.on('arduinoData', (data) => {
-//     const ARRAY_DELIM  = '|';
-//     const DATA_DELIM  = ',';
-
-//     const ROLL_INDEX = 0;
-//     const PITCH_INDEX = 1;
-//     const YAW_INDEX = 2;
-
-//     const parsedData = data.split(DATA_DELIM);
-//     const MOTOR_SIGNAL_INDEX = 0;
-//     const ORIENTATION_INDEX = 1;
-    
-//     let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);
-//     let orientation = parsedData[ORIENTATION_INDEX].split(ARRAY_DELIM);
-
-//     motors = motors.map(motorSignal => formatMotorSignal(motorSignal));
-
-//     document.getElementById('input-roll').value = orientation[ROLL_INDEX];
-//     document.getElementById('input-pitch').value = orientation[PITCH_INDEX];
-//     document.getElementById('input-yaw').value = orientation[YAW_INDEX];
-
-//     updateOrientation();
-//     updateChartData(motors);
-// });
 
 export function tempUpdateView(data) {
     const ARRAY_DELIM  = '|';

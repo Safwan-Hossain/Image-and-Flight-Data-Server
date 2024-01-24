@@ -1,9 +1,9 @@
-import { Config } from '../../node_server/src/server-config.js';
+import { Config } from '../../../shared-data/server-config.js';
 import { DataParser } from './data-parser.js';
-import { UserCommData } from '../../node_server/src/data/communication-data.js'
-import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../../node_server/src/data/event-tags.js';
-import { CLIENT_ROLES } from '../../node_server/src/data/roles.js';
-import { tempUpdateView } from '../modules/visual.js'
+import { UserCommData } from '../../../shared-data/communication-data.js'
+import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../../../shared-data/event-tags.js';
+import { CLIENT_ROLES } from '../../../shared-data/roles.js';
+import { tempUpdateView } from './visual.js'
 
 
 const SERVER_PORT = Config.server.serverPort;

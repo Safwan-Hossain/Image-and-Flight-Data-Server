@@ -1,6 +1,6 @@
 import express from "express";
 import http from 'http';
-import { Config } from './server-config.js'
+import { Config } from '../shared-data/server-config.js'
 import { CommunicationManager } from "./components/communication-manager.mjs";
 import { logger } from './logger/logger.js'
 
