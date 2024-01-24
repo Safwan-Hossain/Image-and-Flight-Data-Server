@@ -1,5 +1,5 @@
 # VanWyn-GUI 🛸
-## Current Progress 🏁: 
+## Current Progress 🏁 
 - Arduino sends data to a node server (a mock arduino is available)
 - Node server takes that data and relays that to the frontend
 - The frontend parses the data and displays it to the webpage using graphs, diagrams and information tabs
@@ -8,7 +8,7 @@
 
 ### General ⚙️
    1. Install **node.js**
-### Setup Arduino 📱
+### Setup Arduino 🕹️
 Note - An Arduino is not required to test out this
    1. Plug in an Arduino
    2. Upload [**ground_station.ino** ](others\arduino\ground_station\ground_station.ino) to the Arduino
