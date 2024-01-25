@@ -1,11 +1,29 @@
-import { setChargeRate } from './battery.js'
+import { BatteryGraph } from './battery-graph.js'
 import { DroneVisualizer } from './drone-visualizer.js';
+import { MotorGraph } from './motor-graph.js';
 
+// vtk
 const vtkContainer = document.getElementById('vtkContainer');
 const stlURL = '../../../assets/stl/drone_model_centered.stl';
 
+
 const droneVisualizer = new DroneVisualizer(vtkContainer, stlURL);
 droneVisualizer.initializeRenderer();
+
+
+
+// battery
+const battery = document.querySelector('.charge');
+const batteryPercentage = document.getElementById('batteryPercentage');
+const lightningSymbol = document.getElementById('lightningSymbol');
+const chargeRateDisplay = document.getElementById('chargeRate');
+
+const batteryGraph = new BatteryGraph(battery, batteryPercentage, lightningSymbol, chargeRateDisplay);
+
+// motor graph
+const motorGraphElement = document.getElementById('myBarChart'); // TODO - change name
+const motorGraph = new MotorGraph(motorGraphElement);
+
 
 export function tempUpdateView(data) {
     const ARRAY_DELIM  = '|';
@@ -31,63 +49,10 @@ export function tempUpdateView(data) {
     // document.getElementById('input-yaw').value = orientation[YAW_INDEX];
 
     droneVisualizer.updateOrientation(orientation);
-    updateChartData(motors);
-    setChargeRate(batteryChargeValue)
+    motorGraph.updateChartData(motors);
+    batteryGraph.updateChargeRate(batteryChargeValue)
 }
 
 function formatMotorSignal(number) {
     return (number - 1000) / 1000;
 }
-
-
-var ctx = document.getElementById('myBarChart').getContext('2d');
-var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['M1', 'M2', 'M3', 'M4'], 
-        datasets: [{
-            label: 'Motor Signals',
-            data: [0, 0, 0, 0], 
-            backgroundColor: ['green', 'green', 'green', 'green'], 
-            borderColor: ['green', 'green', 'green', 'green'],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: 1 
-            }
-        },
-        animation: {
-            duration: 100 
-        },
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        onHover: (event, chartElement) => {
-            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
-        }
-    }
-});
-
-function getColorForValue(value) {
-    var red = value > 0.5 ? 255 : Math.round(510 * value);
-    var green = value < 0.5 ? 255 : Math.round(510 * (1 - value));
-    return 'rgb(' + red + ',' + green + ',0)';
-}
-
-function updateChartData(values) {
-    myBarChart.data.datasets.forEach((dataset) => {
-        dataset.data = values; 
-        dataset.backgroundColor = values.map(value => getColorForValue(value)); 
-        dataset.borderColor = dataset.backgroundColor;
-    });
-    myBarChart.update();
-}
-
-updateChartData([1,.5,.75,.25])

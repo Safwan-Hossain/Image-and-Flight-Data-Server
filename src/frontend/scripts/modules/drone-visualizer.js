@@ -35,7 +35,7 @@ export class DroneVisualizer {
         const volume = vtkVolume.newInstance();
 
         volume.setMapper(volumeMapper);
-        this.renderer.addVolume(volume);
+        // this.renderer.addVolume(volume);
         
 
         // this.interactor.setInteractorStyle(null); 
