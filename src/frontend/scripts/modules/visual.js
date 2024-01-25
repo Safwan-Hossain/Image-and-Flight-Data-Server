@@ -10,8 +10,6 @@ const stlURL = '../../../assets/stl/drone_model_centered.stl';
 const droneVisualizer = new DroneVisualizer(vtkContainer, stlURL);
 droneVisualizer.initializeRenderer();
 
-
-
 // battery
 const battery = document.querySelector('.charge');
 const batteryPercentage = document.getElementById('batteryPercentage');
@@ -43,10 +41,6 @@ export function tempUpdateView(data) {
     let batteryChargeValue = parsedData[BATTERY_INDEX].split(ARRAY_DELIM);
 
     motors = motors.map(motorSignal => formatMotorSignal(motorSignal));
-
-    // document.getElementById('input-roll').value = orientation[ROLL_INDEX];
-    // document.getElementById('input-pitch').value = orientation[PITCH_INDEX];
-    // document.getElementById('input-yaw').value = orientation[YAW_INDEX];
 
     droneVisualizer.updateOrientation(orientation);
     motorGraph.updateChartData(motors);
