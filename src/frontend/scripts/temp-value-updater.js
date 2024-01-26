@@ -39,23 +39,12 @@ const dataPoints = [];
 
 const maxDataAge = 60; // 1 minute in seconds
 
-const chart1 = createTimelineChart('timelineChart1');
+// const chart1 = createTimelineChart('timelineChart1');
 const chart2 = createTimelineChart('timelineChart2');
 const chart3 = createTimelineChart('timelineChart3');
 const chart4 = createTimelineChart('timelineChart4');
 const chart5 = createTimelineChart('timelineChart5');
 const chart6 = createTimelineChart('timelineChart6');
-
-
-
-// export function tempUpdateView(rawData) {
- 
-
-//     updateStateInformation(droneState);
-//     updateChart(chart1, droneState.location[0]);
-//     updateAllCharts();
-
-// }
 
 
 function formatMotorSignal(number) {
@@ -123,7 +112,7 @@ function updateChart(chartObj, newValue) {
 
 function updateAllCharts() {
     const newValue = generateRandomNumber(0, 150);  // for demonstration, you can replace this logic
-    updateChart(chart1, generateRandomNumber(0, 150));
+    // updateChart(chart1, generateRandomNumber(0, 150));
     updateChart(chart2, generateRandomNumber(0, 150));
     updateChart(chart3, generateRandomNumber(0, 150));
     updateChart(chart4, generateRandomNumber(0, 150));

@@ -22,7 +22,6 @@
     height: 5px; /* Height of the horizontal scrollbar */
 }
 
-
 #drone-state-divider {
     display: flex;
     flex-direction: row;

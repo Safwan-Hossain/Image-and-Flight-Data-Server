@@ -1,6 +1,8 @@
 import winston from 'winston';
 const { format } = winston;
 
+const TIMESTAMP_FORMAT = 'HH:mm:ss';
+
 const uppercaseLevels = format(info => {
     info.level = info.level.toUpperCase();
     return info;
@@ -12,7 +14,7 @@ const logger = winston.createLogger({
         uppercaseLevels,
         winston.format.colorize(),
         winston.format.timestamp({
-            format: 'HH:mm:ss'
+            format: TIMESTAMP_FORMAT
         }),
         winston.format.printf(formatLogMessage)
     ),

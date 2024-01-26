@@ -1,6 +1,7 @@
-import { BatteryGraph } from './battery-graph.js'
+import { BatteryGraph } from './graphs/battery-graph.js'
 import { DroneVisualizer } from './drone-visualizer.js';
-import { MotorGraph } from './motor-graph.js';
+import { MotorGraph } from './graphs/motor-graph.js';
+import { TimelineGraph } from './graphs/timeline-graph.js';
 
 // vtk
 const vtkContainer = document.getElementById('vtkContainer');
@@ -23,6 +24,8 @@ const motorGraphElement = document.getElementById('myBarChart'); // TODO - chang
 const motorGraph = new MotorGraph(motorGraphElement);
 
 
+const timeline1 = new TimelineGraph('timelineChart1');
+
 export function tempUpdateView(data) {
     const ARRAY_DELIM  = '|';
     const DATA_DELIM  = ',';
@@ -44,7 +47,9 @@ export function tempUpdateView(data) {
 
     droneVisualizer.updateOrientation(orientation);
     motorGraph.updateChartData(motors);
-    batteryGraph.updateChargeRate(batteryChargeValue)
+    batteryGraph.updateChargeRate(batteryChargeValue);
+    const val = Math.floor(Math.random() * 100);
+    timeline1.updateGraph(val);
 }
 
 function formatMotorSignal(number) {

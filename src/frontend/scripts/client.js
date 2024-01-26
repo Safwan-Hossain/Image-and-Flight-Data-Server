@@ -1,4 +1,3 @@
-// import { updateClient as updateWebpage } from './modules/value-updater.js';
 import { UserCommData } from '../../shared-data/communication-data.js';
 import { ClientSocket } from './modules/client-socket.js'
 
@@ -107,9 +106,6 @@ function addButton(buttonString) {
   addButton('Drone A');
   addButton('Drone B');
   addButton('Drone C');
-
-
-
 
 
 

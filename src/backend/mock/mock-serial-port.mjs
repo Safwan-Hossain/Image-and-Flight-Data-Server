@@ -35,18 +35,18 @@ export class SerialPortMockHandler {
     }
 
     generateMockData() {
-        return this._generateRandomNumberBetween(1000, 2000) + "|" +
-               this._generateRandomNumberBetween(1000, 2000) + "|" +
-               this._generateRandomNumberBetween(1000, 2000) + "|" +
-               this._generateRandomNumberBetween(1000, 2000) + "," +
-               this._generateRandomNumberBetween(0, 360) + "|" +
-               this._generateRandomNumberBetween(0, 360) + "|" +
-               this._generateRandomNumberBetween(0, 360) + "," +
-               this._generateRandomNumberBetween(400, 601) 
+        return this.#generateRandomNumberBetween(1000, 2000) + "|" +
+               this.#generateRandomNumberBetween(1000, 2000) + "|" +
+               this.#generateRandomNumberBetween(1000, 2000) + "|" +
+               this.#generateRandomNumberBetween(1000, 2000) + "," +
+               this.#generateRandomNumberBetween(0, 360) + "|" +
+               this.#generateRandomNumberBetween(0, 360) + "|" +
+               this.#generateRandomNumberBetween(0, 360) + "," +
+               this.#generateRandomNumberBetween(400, 601) 
                + "\r\n";
     }
 
-    _generateRandomNumberBetween(a, b) {
+    #generateRandomNumberBetween(a, b) {
         if (typeof a !== 'number' || typeof b !== 'number' || a > b) {
             throw new Error('Invalid input parameters for random number generation');
         }

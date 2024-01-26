@@ -116,26 +116,6 @@
             transition: height 0.1s linear;
         }
 
-        button {
-            background-color: #4caf50;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            padding: 10px 20px;
-            margin: 5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #367c39;
-        }
-
-        button:active {
-            background-color: #285a29;
-        }
-
     </style>
 </head>
 <body>
@@ -199,13 +179,14 @@
         <div id="buttonContainer">
             <h3 id="buttonContainerHeading">Available Drones</h3>
         </div>
-
         <!-- === BATTERY === -->
         <div class="battery-container">
             <div class="battery-top"></div>
             <div class="battery">
                 <div class="charge"></div>
-                <div id="lightningSymbol" style="display: none;">⚡</div>
+                <div id="lightningSymbol" style="display: none;">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
             </div>
             <div id="batteryPercentage">0%</div>
             <div>Charge Rate: <span id="chargeRate">511</span></div>
@@ -263,6 +244,7 @@
     
     <!-- ========================== STYLE SHEETS ==========================  -->
     <link rel="stylesheet" type="text/css" href="../style/styles.css">    
+    <link rel="stylesheet" type="text/css" href="../style/graphs.css">    
 
     <!-- ========================== THRID PARTY SCRIPTS ========================== -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -273,7 +255,8 @@
     <script src="../scripts/modules/drone-state.js"></script>
     <script type="module" src="../scripts/modules/data-parser.js"></script>
     <script type="module" src="../scripts/modules/visual.js"></script>
-    <script type="module" src="../scripts/modules/battery.js"></script>
+    <!-- <script type="module" src="../scripts/modules/battery-graph.js"></script>
+    <script type="module" src="../scripts/modules/timeline-graph.js"></script> -->
     <!-- <script type="module" src="../scripts/modules/value-updater.js"></script> -->
     <script type="module" src="../scripts/temp-value-updater.js"></script>
     <script type="module" src="../scripts/client.js"></script>
