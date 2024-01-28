@@ -1,3 +1,7 @@
+// ===================================================================================================== //
+// ============================================ MOTOR GRAPH ============================================ //
+// ===================================================================================================== //
+
 export const DEFAULT_MOTOR_GRAPH_CONFIG = {
     type: 'bar',
     data: {
@@ -33,17 +37,21 @@ export const DEFAULT_MOTOR_GRAPH_CONFIG = {
 };
 
 
+// ======================================================================================================== //
+// ============================================ TIMELINE GRAPH ============================================ //
+// ======================================================================================================== //
+
+export const DEFAULT_TIMELINE_COLORS = [
+    'rgba(0, 123, 255, 1)', 
+    'rgba(100, 123, 255, 1)', 
+    'rgba(0, 3, 255, 1)', 
+    'rgba(255, 165, 0, 1)'
+];
+
 export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
     type: 'line',
     data: {
-        labels: Array.from({length: 100}, (_, i) => (-10 + i * 0.1).toFixed(1)), // Initialize labels from -10 to 0
-        datasets: [{
-            label: 'Dynamic Data',
-            data: [], 
-            fill: false,
-            borderColor: 'rgba(0, 123, 255, 1)',
-            tension: 0.5
-        }]
+        datasets: [] 
     },
     options: {
         responsive: true,
@@ -51,13 +59,20 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
         animation: false,
         scales: {
             x: {
+                type: 'linear',
+                position: 'bottom',
+                min: -10, 
+                max: 0,   
                 grid: {
                     display: false,
                 },
                 ticks: {
+                    stepSize: 2,
                     color: '#fff', 
+                    maxRotation: 0, // To prevent x labels from rotating. Change as needed
+                    minRotation: 0, 
                     font: {
-                        size: 14
+                        size: 10
                     }
                 }
             },
@@ -68,7 +83,7 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
                 ticks: {
                     color: '#fff', 
                     font: {
-                        size: 14
+                        size: 12
                     }
                 }
             }
@@ -77,7 +92,6 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
             line: {
                 borderWidth: 3,
                 tension: 0.1,
-                backgroundColor: 'rgba(0, 175, 255, 0.6)', // Line color
                 borderColor: 'rgba(0, 175, 255, 1)',
                 borderCapStyle: 'round',
                 shadowOffsetX: 1,
@@ -86,20 +100,36 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
                 shadowBlur: 5
             },
             point: {
-                hoverRadius: 6, // Slightly larger radius on hover
+                hoverRadius: 0, 
                 hoverBackgroundColor: 'rgba(255, 255, 255, 1)', 
                 radius: 0,
-                backgroundColor: '#fff', // White points for contrast
+                backgroundColor: '#fff',
                 borderColor: '#fff'
             }
         },
         plugins: {
+            
+            title: {
+                display: false,
+                text: '',
+                color: 'white' // TODO - change color
+            },
             legend: {
+                onHover: function(event, legendItem, legend) {
+                    event.native.target.style.cursor = 'pointer';
+                },
+                onLeave: function(event, legendItem, legend) {
+                    event.native.target.style.cursor = 'default';
+                },
+                fullSize: true,
+                position: 'bottom',
+                align: 'center',
                 labels: {
-                    color: '#fff', // White text for legend
+                    usePointStyle: true,
+                    pointStyle:'rect',
+                    color: '#fff', 
                     font: {
-                        size: 16,
-                        style: 'italic'
+                        size:10
                     }
                 }
             },
@@ -107,7 +137,7 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
                 enabled: true,
                 mode: 'index',
                 intersect: false,
-                backgroundColor: 'rgba(0,0,0,0.8)', // Darker tooltip background
+                backgroundColor: 'rgba(0,0,0,0.8)', // tooltip background
                 titleFont: {
                     size: 14,
                     weight: 'bold'
@@ -115,9 +145,9 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
                 bodyFont: {
                     size: 12
                 },
-                cornerRadius: 4, // Rounded corners for tooltip
-                caretSize: 6, // Adjust the size of the tooltip arrow
-                displayColors: false, // Disable displaying color boxes in tooltip
+                cornerRadius: 4, 
+                caretSize: 8, 
+                displayColors: false, 
             }
         }
     }

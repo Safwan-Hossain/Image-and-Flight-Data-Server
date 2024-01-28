@@ -7,7 +7,6 @@ import { TimelineGraph } from './graphs/timeline-graph.js';
 const vtkContainer = document.getElementById('vtkContainer');
 const stlURL = '../../../assets/stl/drone_model_centered.stl';
 
-
 const droneVisualizer = new DroneVisualizer(vtkContainer, stlURL);
 droneVisualizer.initializeRenderer();
 
@@ -24,15 +23,13 @@ const motorGraphElement = document.getElementById('myBarChart'); // TODO - chang
 const motorGraph = new MotorGraph(motorGraphElement);
 
 
-const timeline1 = new TimelineGraph('timelineChart1');
+const rotationGraph = new TimelineGraph('timelineChart1', ['Roll', 'Pitch', 'Yaw']);
+rotationGraph.setTitle('ROTATION');
+rotationGraph.setYAxisRange(0, 360, 60);
 
 export function tempUpdateView(data) {
     const ARRAY_DELIM  = '|';
     const DATA_DELIM  = ',';
-
-    const ROLL_INDEX = 0;
-    const PITCH_INDEX = 1;
-    const YAW_INDEX = 2;
 
     const parsedData = data.split(DATA_DELIM);
     const BATTERY_INDEX = 2;
@@ -49,7 +46,7 @@ export function tempUpdateView(data) {
     motorGraph.updateChartData(motors);
     batteryGraph.updateChargeRate(batteryChargeValue);
     const val = Math.floor(Math.random() * 100);
-    timeline1.updateGraph(val);
+    rotationGraph.updateGraph(orientation);
 }
 
 function formatMotorSignal(number) {

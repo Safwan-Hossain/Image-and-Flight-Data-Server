@@ -7,9 +7,9 @@
 
 /* ====== TIMELINE GRAPHS ====== */
 .chart {
-    margin-left: 10px;
+    margin-right: 20px;
     width: 90%;
-    height: 180px;
+    height: 200px;
     max-width: 800px;
     background: #383838; 
     padding: 10px;

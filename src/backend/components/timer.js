@@ -12,7 +12,6 @@ export class Timer {
         this.timerHandle = setInterval(this.task, timerHandle);
     }
 
-    // Stop the timer
     stop() {
         if (this.timerHandle) {
             clearInterval(this.timerHandle);
