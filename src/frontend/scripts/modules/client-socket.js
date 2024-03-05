@@ -55,7 +55,7 @@ export class ClientSocket {
     registerEvents() {
         
         this.socket.on(CLIENT_EVENT_TAGS.SERIAL_DATA, (data) => {
-            const droneState = DataParser.parseData(data);
+            // const droneState = DataParser.parseData(data);
             // console.log(droneState);
             tempUpdateView(data);
         });
@@ -144,7 +144,7 @@ export class ClientSocket {
                     option.style.backgroundColor = 'yellow'; 
                     
                     // TEMP
-                    document.getElementById('dropdown-container').style.display = 'none';
+                    document.getElementById('main-menu-container').style.display = 'none';
                     const mainContent = document.getElementsByClassName('grid-container')[0];
                     mainContent.style.display = 'grid';
                     // TEMP

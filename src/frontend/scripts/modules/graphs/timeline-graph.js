@@ -2,29 +2,47 @@ import { DEFAULT_TIMELINE_GRAPH_CONFIG, DEFAULT_TIMELINE_COLORS } from "./-defau
 
 
 export class TimelineGraph {
-    constructor(canvasId, datasetLabels, customConfig = {}) {
-        this.validateCanvas(canvasId);
+    // constructor(canvasId, datasetLabels, customConfig = {}) {
+    //     this.validateCanvas(canvasId);
+    //     this.initializeProperties(datasetLabels, customConfig);
+    // }
+
+    // validateCanvas(canvasId) {
+    //     this.canvas = document.getElementById(canvasId);
+    //     if (!this.canvas) {
+    //         throw new Error(`Canvas with id "${canvasId}" not found.`);
+    //     }
+    // }
+
+    constructor(canvasElement, datasetLabels, customConfig = {}) {
+        this.validateCanvas(canvasElement);
         this.initializeProperties(datasetLabels, customConfig);
     }
 
-    validateCanvas(canvasId) {
-        this.canvas = document.getElementById(canvasId);
+    validateCanvas(canvasElement) {
+        this.canvas = canvasElement;
         if (!this.canvas) {
-            throw new Error(`Canvas with id "${canvasId}" not found.`);
+            throw new Error(`Canvas with id "${canvasElement}" not found.`);
         }
     }
 
     initializeProperties(datasetLabels, customConfig) {
         this.lineColors = DEFAULT_TIMELINE_COLORS;
         this.DATA_POINT_LIFETIME = 10;
-        this.DATA_POINT_INTERVAL = 0.1
-
+        this.DATA_POINT_INTERVAL = 0.1;
+    
+        // Deep clone the default config to ensure each chart instance has its own config
+        const chartConfig = JSON.parse(JSON.stringify(DEFAULT_TIMELINE_GRAPH_CONFIG));
+    
+        // Apply any custom configurations
+        const finalConfig = { ...chartConfig, ...customConfig };
+    
         const ctx = this.canvas.getContext('2d');
-        this.chart = new Chart(ctx, { ...DEFAULT_TIMELINE_GRAPH_CONFIG, ...customConfig });
+        this.chart = new Chart(ctx, finalConfig);
         this.datasetLabels = datasetLabels;
         this.setupDatasets();
         this.populateInitialData();
-
+        
         this.startTime = Date.now();
         this.lastUpdateTime = this.startTime;
         this.shouldDisplayUpdate = true;
@@ -81,6 +99,7 @@ export class TimelineGraph {
             this.chart.options.scales.x.min = min;
             this.chart.options.scales.x.max = max;
             this.chart.options.scales.x.ticks.stepSize = stepSize;
+            // this.chart.update();
     }
 
     populateInitialData() {

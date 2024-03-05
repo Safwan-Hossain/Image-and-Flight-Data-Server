@@ -69,7 +69,7 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
                 ticks: {
                     stepSize: 2,
                     color: '#fff', 
-                    maxRotation: 0, // To prevent x labels from rotating. Change as needed
+                    maxRotation: 0, // prevent x labels from rotating. Change as needed
                     minRotation: 0, 
                     font: {
                         size: 10
@@ -148,6 +148,7 @@ export const DEFAULT_TIMELINE_GRAPH_CONFIG = {
                 cornerRadius: 4, 
                 caretSize: 8, 
                 displayColors: false, 
+                
             }
         }
     }

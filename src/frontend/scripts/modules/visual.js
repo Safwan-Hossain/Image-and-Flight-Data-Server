@@ -2,13 +2,14 @@ import { BatteryGraph } from './graphs/battery-graph.js'
 import { DroneVisualizer } from './drone-visualizer.js';
 import { MotorGraph } from './graphs/motor-graph.js';
 import { TimelineGraph } from './graphs/timeline-graph.js';
+import { DataParser } from './data-parser.js';
 
 // vtk
 const vtkContainer = document.getElementById('vtkContainer');
 const stlURL = '../../../assets/stl/drone_model_centered.stl';
 
 const droneVisualizer = new DroneVisualizer(vtkContainer, stlURL);
-droneVisualizer.initializeRenderer();
+// droneVisualizer.initializeRenderer();
 
 // battery
 const battery = document.querySelector('.charge');
@@ -23,30 +24,39 @@ const motorGraphElement = document.getElementById('myBarChart'); // TODO - chang
 const motorGraph = new MotorGraph(motorGraphElement);
 
 
-const rotationGraph = new TimelineGraph('timelineChart1', ['Roll', 'Pitch', 'Yaw']);
-rotationGraph.setTitle('ROTATION');
-rotationGraph.setYAxisRange(0, 360, 60);
+// const rotationGraph = new TimelineGraph('timelineChart1', ['Roll', 'Pitch', 'Yaw']);
+// rotationGraph.setTitle('ORIENTATION');
+// rotationGraph.setYAxisRange(0, 360, 60);
+
+const dataParser = new DataParser();
+dataParser.initialize();
+
 
 export function tempUpdateView(data) {
     const ARRAY_DELIM  = '|';
     const DATA_DELIM  = ',';
 
+
     const parsedData = data.split(DATA_DELIM);
-    const BATTERY_INDEX = 2;
-    const MOTOR_SIGNAL_INDEX = 0;
-    const ORIENTATION_INDEX = 1;
+    const MOTOR_SIGNAL_INDEX = 3;
+    const ORIENTATION_INDEX = 0;
+    const BATTERY_INDEX = 5;
+    console.log(data)
     
     let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);
     let orientation = parsedData[ORIENTATION_INDEX].split(ARRAY_DELIM);
-    let batteryChargeValue = parsedData[BATTERY_INDEX].split(ARRAY_DELIM);
+    // let batteryChargeValue = parsedData[BATTERY_INDEX].split(ARRAY_DELIM);
+    let batteryChargeValue = 600;
 
     motors = motors.map(motorSignal => formatMotorSignal(motorSignal));
 
-    droneVisualizer.updateOrientation(orientation);
+    const orientationDict = {roll: orientation[0], pitch: orientation[1], yaw: orientation[2]};
+    droneVisualizer.updateOrientation(orientationDict);
     motorGraph.updateChartData(motors);
     batteryGraph.updateChargeRate(batteryChargeValue);
-    const val = Math.floor(Math.random() * 100);
-    rotationGraph.updateGraph(orientation);
+    
+    // rotationGraph.updateGraph(orientation);
+    dataParser.handleData(data);
 }
 
 function formatMotorSignal(number) {

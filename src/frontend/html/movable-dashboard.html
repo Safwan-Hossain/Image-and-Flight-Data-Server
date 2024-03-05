@@ -14,12 +14,11 @@
     }
   
     .dashboard {
-      width: 100%;
-      height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-      background-color: #f8f9fa; /* Consistent with the body background */
-    }
+            display: flex; /* Align items horizontally */
+            justify-content: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+            height: 100vh;
+        }
   
     .draggable {
       color: #495057; /* Darker text color for contrast */
@@ -38,17 +37,17 @@
     /* Example sizes for different widgets */
     .widget-small {
       width: 100px;
-      height: 100px;
+      height: 100px; /* Example fixed height */
     }
     
     .widget-medium {
       width: 200px;
-      height: 150px;
+      height: 100px; /* Example fixed height */
     }
     
     .widget-large {
       width: 300px;
-      height: 200px;
+      height: 100px; /* Example fixed height */
     }
   
     .draggable:hover {
@@ -88,46 +87,108 @@
   let offsetY = 0;
 
   function onMouseDown(event) {
-    if (event.target.classList.contains('selectable')) {
-      // If it's selectable text, we allow default browser behavior
-      return;
+        if (event.target.classList.contains('selectable')) {
+            return; // Allow default browser behavior for selectable text
+        }
+
+        activeElement = event.target.closest('.draggable');
+        offsetX = event.clientX - activeElement.getBoundingClientRect().left;
+        document.body.classList.add('noselect');
+        activeElement.style.transition = 'none';
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        event.preventDefault();
     }
 
-    activeElement = event.target.closest('.draggable');
-    offsetX = event.clientX - activeElement.getBoundingClientRect().left;
-    offsetY = event.clientY - activeElement.getBoundingClientRect().top;
-    // Disable text selection on the document while dragging
-    document.body.classList.add('noselect');
-    activeElement.style.transition = 'none';
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-
-    // Prevent default to avoid any unwanted behaviors like text selection
-    event.preventDefault();
-  }
-
-  function onMouseMove(event) {
+    function onMouseMove(event) {
     if (activeElement) {
-      activeElement.style.left = `${event.clientX - offsetX}px`;
-      activeElement.style.top = `${event.clientY - offsetY}px`;
+        const newX = event.clientX - offsetX;
+        activeElement.style.left = `${newX}px`;
+
+        draggables.forEach(draggable => {
+            if (draggable !== activeElement && isOverlapping(activeElement, draggable)) {
+                const leftFree = isSideFree(draggable, 'left');
+                const rightFree = isSideFree(draggable, 'right');
+
+                if (leftFree && !rightFree) {
+                    // Move to the left
+                    draggable.style.left = `${parseInt(draggable.style.left, 10) - draggable.offsetWidth}px`;
+                } else if (rightFree && !leftFree) {
+                    // Move to the right
+                    draggable.style.left = `${parseInt(draggable.style.left, 10) + draggable.offsetWidth}px`;
+                }
+                // If both sides are blocked, do not move the widget
+            }
+        });
     }
+}
+
+function isSideFree(widget, side) {
+    const widgetRect = widget.getBoundingClientRect();
+    let isFree = true;
+    
+    draggables.forEach(draggable => {
+        if (draggable !== widget) {
+            const compareRect = draggable.getBoundingClientRect();
+            if (side === 'left') {
+                if (compareRect.right > widgetRect.left - widget.offsetWidth && compareRect.left < widgetRect.left) {
+                    isFree = false;
+                }
+            } else if (side === 'right') {
+                if (compareRect.left < widgetRect.right + widget.offsetWidth && compareRect.right > widgetRect.right) {
+                    isFree = false;
+                }
+            }
+        }
+    });
+
+    return isFree;
+}
+
+    function isOverlapping(elem1, elem2) {
+      const sensitivity = 10; // Sensitivity reduction in pixels
+      const rect1 = elem1.getBoundingClientRect();
+      const rect2 = elem2.getBoundingClientRect();
+
+      // Reduce the size of the rectangles for the overlap check
+      const reducedRect1 = {
+          left: rect1.left + sensitivity,
+          right: rect1.right - sensitivity
+      };
+
+      const reducedRect2 = {
+          left: rect2.left + sensitivity,
+          right: rect2.right - sensitivity
+      };
+
+      return !(reducedRect1.right < reducedRect2.left || reducedRect1.left > reducedRect2.right);
   }
 
-  function onMouseUp() {
-    if (activeElement) {
-      activeElement.style.transition = 'left 0.2s ease-in-out, top 0.2s ease-in-out';
-      activeElement.style.left = `${snapToGrid(activeElement.offsetLeft)}px`;
-      activeElement.style.top = `${snapToGrid(activeElement.offsetTop)}px`;
-    }
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-    document.body.classList.remove('noselect');
-    activeElement = null;
-  }
+    function adjustWidgets(activeElem, otherElem) {
+        const activeRect = activeElem.getBoundingClientRect();
+        const otherRect = otherElem.getBoundingClientRect();
 
-  draggables.forEach(draggable => {
-    draggable.addEventListener('mousedown', onMouseDown);
-  });
+        if (activeRect.right > otherRect.left && activeRect.left < otherRect.right) {
+            // Determine direction to move the overlapped widget
+            const moveLeft = (otherRect.left - activeRect.left) < (activeRect.right - otherRect.right);
+            otherElem.style.left = moveLeft ? `${otherRect.left - otherRect.width}px` : `${otherRect.right}px`;
+        }
+    }
+
+    function onMouseUp() {
+        if (activeElement) {
+            activeElement.style.transition = 'left 0.2s ease-in-out';
+            activeElement.style.left = `${snapToGrid(activeElement.offsetLeft)}px`;
+        }
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        document.body.classList.remove('noselect');
+        activeElement = null;
+    }
+
+    draggables.forEach(draggable => {
+        draggable.addEventListener('mousedown', onMouseDown);
+    });
 </script>
 
 </body>

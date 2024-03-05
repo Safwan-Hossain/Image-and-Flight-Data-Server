@@ -12,6 +12,7 @@ export class CommunicationManager {
         this.socketHandler = new SocketHandler(server);
         this.serialHandler = new SerialPortHandler(customOptions);
         this.serialPortsTimer = new Timer(this.fetchAndReturnSerialPorts.bind(this), 1000);
+        this.delay = 0;
     }
 
     startListening() {
@@ -92,7 +93,13 @@ export class CommunicationManager {
     }
 
     handleSerialData(serialData) {
-        this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.SERIAL_DATA, serialData);
+
+        console.log(serialData);
+        this.delay++;
+        if (this.delay % 100 == 0) {
+            this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.SERIAL_DATA, serialData);
+
+        }
     }
 
     tryConnectingToNewPort(newPort) {

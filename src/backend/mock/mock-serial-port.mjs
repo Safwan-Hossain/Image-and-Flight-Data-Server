@@ -35,14 +35,21 @@ export class SerialPortMockHandler {
     }
 
     generateMockData() {
-        return this.#generateRandomNumberBetween(1000, 2000) + "|" +
+        return this.#generateRandomNumberBetween(1000, 2000) + "|" + 
                this.#generateRandomNumberBetween(1000, 2000) + "|" +
                this.#generateRandomNumberBetween(1000, 2000) + "|" +
-               this.#generateRandomNumberBetween(1000, 2000) + "," +
+               this.#generateRandomNumberBetween(1000, 2000) + "," + // motor
                this.#generateRandomNumberBetween(0, 360) + "|" +
                this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 360) + "," +
-               this.#generateRandomNumberBetween(400, 601) 
+               this.#generateRandomNumberBetween(0, 360) + "," + // orientation
+               this.#generateRandomNumberBetween(0, 360) + "|" +
+               this.#generateRandomNumberBetween(0, 360) + "|" +
+               this.#generateRandomNumberBetween(0, 360) + "," + // angular rate
+               this.#generateRandomNumberBetween(0, 360) + "|" +
+               this.#generateRandomNumberBetween(0, 360) + "|" +
+               this.#generateRandomNumberBetween(0, 1000) + "," + // Magnetometer
+               this.#generateRandomNumberBetween(0, 20) + "," + // Temperature
+               this.#generateRandomNumberBetween(400, 601) // Battery
                + "\r\n";
     }
 
