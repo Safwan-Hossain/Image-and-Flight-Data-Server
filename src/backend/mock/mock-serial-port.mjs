@@ -1,10 +1,12 @@
 import { SerialPortMock } from 'serialport'
+import { DATA_GENERATION_INTERVAL, COMPONENT_VALUES } from './mock-config.js';
+import { DATA_DELIMITER, ARRAY_DELIMITER, END_OF_LINE_DELIMITER, DEFAULT_PARSING_DATA } from '../../shared-data/parsing-data.js';
 
 
 
 export class SerialPortMockHandler {
 
-    constructor(options, dataGenerationInterval = 100) {
+    constructor(options, dataGenerationInterval = DATA_GENERATION_INTERVAL) {
         this.path = SerialPortMockHandler.mockSerialPortData.path;
         this.options = options;
         this.interval = dataGenerationInterval; 
@@ -34,23 +36,43 @@ export class SerialPortMockHandler {
         }
     }
 
-    generateMockData() {
-        return this.#generateRandomNumberBetween(1000, 2000) + "|" + 
-               this.#generateRandomNumberBetween(1000, 2000) + "|" +
-               this.#generateRandomNumberBetween(1000, 2000) + "|" +
-               this.#generateRandomNumberBetween(1000, 2000) + "," + // motor
-               this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 360) + "," + // orientation
-               this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 360) + "," + // angular rate
-               this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 360) + "|" +
-               this.#generateRandomNumberBetween(0, 1000) + "," + // Magnetometer
-               this.#generateRandomNumberBetween(0, 20) + "," + // Temperature
-               this.#generateRandomNumberBetween(400, 601) // Battery
-               + "\r\n";
+
+    generateMockData() {        
+        const itemIndexes = DEFAULT_PARSING_DATA.itemIndexes;
+
+        let dataOrder = [];
+        Object.keys(itemIndexes).forEach(index => {
+            const componentTag = itemIndexes[index];
+            dataOrder.push(this.generateComponentValues(componentTag));
+        });
+
+        return dataOrder.join(DATA_DELIMITER) + END_OF_LINE_DELIMITER;
+    }
+
+    generateComponentValues(componentTag) {
+        const componentSettings = COMPONENT_VALUES[componentTag];
+        const min = componentSettings.minValue;
+        const max = componentSettings.maxValue;
+        const numberOfValues = componentSettings.numberOfValues;
+
+        if (numberOfValues > 1) {
+            return this.#generateRandomStringArray(min, max, numberOfValues);
+        }
+        return this.#generateRandomNumberBetween(min, max);
+    }
+
+    #generateRandomStringArray(min, max, arraySize) {
+        let finalString = ""
+        for (let i = 0; i < arraySize; i++) {
+            const isLastIndex = i == (arraySize - 1);
+            const randomNum = this.#generateRandomNumberBetween(min, max);
+            
+            finalString += randomNum;
+            if (!isLastIndex) {
+                finalString += ARRAY_DELIMITER;
+            }
+        }
+        return finalString;
     }
 
     #generateRandomNumberBetween(a, b) {

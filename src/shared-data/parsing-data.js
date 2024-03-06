@@ -1,4 +1,13 @@
 
+// Data will be seperated by delimiters but each type of data can be an array of values 
+// and those arrays will also be seperated by a different type of delimiter.
+// E.g. orientation data and location data may look like this:  
+// 0,0,0|1,1,1 where 0,0,0 is the XYZ of the orientation and is seperated by the data delimiter '|'
+
+export const DATA_DELIMITER  = ','; 
+export const ARRAY_DELIMITER  = '|';
+export const END_OF_LINE_DELIMITER = "\r\n"; 
+
 export const ITEM_TAGS = {
     MOTOR_SIGNALS: "motor_signal_item_tag",
     ORIENTATION: "orientation_item_tag",
@@ -27,8 +36,8 @@ export const DEFAULT_PARSING_DATA = {
         1: ITEM_TAGS.ANGULAR_RATE,
         2: ITEM_TAGS.MAGNETOMETER,
         3: ITEM_TAGS.MOTOR_SIGNALS,
-        // 4: ITEM_TAGS.TEMPERATURE,
-        // 5: ITEM_TAGS.BATTERY
+        4: ITEM_TAGS.TEMPERATURE,
+        5: ITEM_TAGS.BATTERY
     },
     items: [
         {   
@@ -112,5 +121,3 @@ export const DEFAULT_PARSING_DATA = {
         
     ]
 }
-
-// M1,M2,M3,M4 | Q1,Q2,Q3,Q4 | roll_rate, roll_cmd
