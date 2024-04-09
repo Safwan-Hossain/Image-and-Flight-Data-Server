@@ -38,7 +38,9 @@
     background-color: #283241;
 }
 
-
+/* #page-2 {
+    background-color: #2e2e2e;
+} */
 
 /* ========================================= */
 /* =============== MAIN MENU =============== */
@@ -401,7 +403,9 @@ button:hover {
     border-radius: 10px;
     position: relative;
     overflow: hidden;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    color: white;
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .info-list ul {
@@ -411,6 +415,7 @@ button:hover {
 
 .info-list h2 {
     margin:0;
+    text-align: center;
 }
 
 
@@ -500,3 +505,5 @@ button:hover {
     background-color: #cccccc;
     cursor: not-allowed;
 }
+
+

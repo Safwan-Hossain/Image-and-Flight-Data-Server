@@ -2,6 +2,7 @@ import { UserCommData } from '../../shared-data/communication-data.js';
 import { ClientSocket } from './modules/client-socket.js'
 
 
+
 // TODO - On load, check the port options, if any of the ports are selected but they arent connected, change back to default
 
 const clientSocket = new ClientSocket();
@@ -110,15 +111,43 @@ function addButton(buttonString) {
 
 
 
+// import 'vtk.js/Sources/favicon.js';
 
+import vtkActor from '@kitware/vtk.js/Rendering/Core/Actor.js';
+import vtkMapper from '@kitware/vtk.js/Rendering/Core/Mapper.js';
+import vtkRenderer from '@kitware/vtk.js/Rendering/Core/Renderer.js';
+import vtkRenderWindow from '@kitware/vtk.js/Rendering/Core/RenderWindow.js';
+import vtkRenderWindowInteractor from '@kitware/vtk.js/Rendering/Core/RenderWindowInteractor.js';
+import vtkConeSource from '@kitware/vtk.js/Filters/Sources/ConeSource.js';
+import vtkGenericRenderWindow from '@kitware/vtk.js/Rendering/Misc/GenericRenderWindow.js';
 
-
-
-
-
-
-
+document.addEventListener('DOMContentLoaded', (event) => {
+  console.log(document.getElementById('vtkContainer'))
+  // Create a generic render window, renderer, render window interactor
+  const genericRenderWindow = vtkGenericRenderWindow.newInstance();
+  genericRenderWindow.setContainer(document.getElementById('vtkContainer')); // or use any specific container
+  const renderer = genericRenderWindow.getRenderer();
+  const renderWindow = genericRenderWindow.getRenderWindow();
   
+  // Create a cone source, mapper, and actor
+  const coneSource = vtkConeSource.newInstance({ height: 10, radius: 5, resolution: 30 });
+  const mapper = vtkMapper.newInstance();
+  const actor = vtkActor.newInstance();
+  
+  mapper.setInputConnection(coneSource.getOutputPort());
+  actor.setMapper(mapper);
+  
+  // Add the actor to the renderer and set background color
+  renderer.addActor(actor);
+  renderer.setBackground(0.1, 0.2, 0.4);
+  
+  // Render
+  renderWindow.render();
+});
+
+
+
+
 
 // socket.on('frame2', (data) => {
 //     console.log("Image data received on javascript");
@@ -161,3 +190,6 @@ function addButton(buttonString) {
 //     // Set the image source to the data we received (must be after setting onload)
 //     image.src = 'data:image/jpeg;base64,' + data;
 // });
+
+
+

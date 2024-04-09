@@ -36,8 +36,8 @@ export const DEFAULT_PARSING_DATA = {
         1: ITEM_TAGS.ANGULAR_RATE,
         2: ITEM_TAGS.MAGNETOMETER,
         3: ITEM_TAGS.MOTOR_SIGNALS,
-        4: ITEM_TAGS.TEMPERATURE,
-        5: ITEM_TAGS.BATTERY
+        // 4: ITEM_TAGS.TEMPERATURE,
+        // 5: ITEM_TAGS.BATTERY
     },
     items: [
         {   

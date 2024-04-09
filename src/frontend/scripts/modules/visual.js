@@ -41,7 +41,6 @@ export function tempUpdateView(data) {
     const MOTOR_SIGNAL_INDEX = 3;
     const ORIENTATION_INDEX = 0;
     const BATTERY_INDEX = 5;
-    console.log(data)
     
     let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);
     let orientation = parsedData[ORIENTATION_INDEX].split(ARRAY_DELIM);

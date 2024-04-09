@@ -1,4 +1,5 @@
 import { DEFAULT_MOTOR_GRAPH_CONFIG } from "./-default-graph-config.js";
+// import { Chart } from "../../../../node_modules/chart.js/dist/chart.js"
 
 export class MotorGraph {
     constructor(chartElement, config = {}) {

@@ -1,20 +1,31 @@
-import 'https://unpkg.com/vtk.js';
+// import '@kitware/vtk.js/Rendering/Profiles/All';
+
+
+import vtkGenericRenderWindow from '@kitware/vtk.js/Rendering/Misc/GenericRenderWindow.js';
+import vtkActor from '@kitware/vtk.js/Rendering/Core/Actor.js';
+import vtkMapper from '@kitware/vtk.js/Rendering/Core/Mapper.js';
+import vtkSTLReader from '@kitware/vtk.js/IO/Geometry/STLReader.js';
+
 
 export class DroneVisualizer {
+    
 
     constructor(vtkContainer, stlModelPath) {
         this.vtkContainer = vtkContainer;
         this.stlModelPath = stlModelPath;
         this.lastOrientation = { roll: 0, pitch: 0, yaw: 0 };
 
-        this.initializeRenderer();
-        this.loadStlModel();
+        // this.initializeRenderer();
+        // this.loadStlModel();
     }
 
+
     initializeRenderer() {
-        const vtkGenericRenderWindow = vtk.Rendering.Misc.vtkGenericRenderWindow;
-        const vtkActor = vtk.Rendering.Core.vtkActor;
-        const vtkMapper = vtk.Rendering.Core.vtkMapper;
+        
+        // const vtkGenericRenderWindow = vtk.Rendering.Misc.vtkGenericRenderWindow;
+        // const vtkActor = vtk.Rendering.Core.vtkActor;
+        // const vtkMapper = vtk.Rendering.Core.vtkMapper;
+
 
         const genericRenderWindow = vtkGenericRenderWindow.newInstance();
         genericRenderWindow.setContainer(this.vtkContainer);
@@ -33,8 +44,7 @@ export class DroneVisualizer {
     }
     
     loadStlModel() {
-        const vtkSTLReader = vtk.IO.Geometry.vtkSTLReader;
-
+        // const vtkSTLReader = vtk.IO.Geometry.vtkSTLReader;
         this.reader = vtkSTLReader.newInstance();
         this.reader.setUrl(this.stlModelPath).then(() => {
             this.setUpStlModel();
@@ -42,6 +52,7 @@ export class DroneVisualizer {
     }
 
     setUpStlModel() {
+        
         this.mapper.setInputConnection(this.reader.getOutputPort());
         this.configureActorProperties();
 
@@ -60,6 +71,7 @@ export class DroneVisualizer {
 
     // TODO - use vector?
     updateOrientation({ roll, pitch, yaw }) {  
+        return;
         const deltaRoll = roll - this.lastOrientation.roll;
         const deltaPitch = pitch - this.lastOrientation.pitch;
         const deltaYaw = yaw - this.lastOrientation.yaw;

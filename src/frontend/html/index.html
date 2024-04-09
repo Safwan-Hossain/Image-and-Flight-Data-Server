@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arduino Communication</title>
+    <title>Drone GUI2</title>
     
     <link href="../style/assets/fontawesome/css/solid.css" rel="stylesheet">
     <link href="../style/assets/fontawesome/css/regular.css" rel="stylesheet">
@@ -30,7 +30,7 @@
             </div>
             
             <!-- Trigger/Open The Modal -->
-            <button id="openModalButton">Add Parsing Item</button>
+            <button id="openModalButton">Add Parsing Item</button> 
         </div>
     
     
@@ -136,22 +136,21 @@
     
     
             <div class="info-list">
-                <h2>Drone State Information</h2>
+                <!-- <h2>DRONE STATE INFORMATION</h2> -->
                 <div id="drone-state-divider">
                     <ul class="drone-state-list">
-                        <li class="list-item" id="drone-name"><b>Drone Name: </b></li>
-                        <li class="list-item" id="ip-address"><b>IP Address: </b></li>
-                        <li class="list-item" id="threat-level"><b>Threat Level: </b> </li>
-                        <li class="list-item" id="location"><b>Location: </b></li>
-        
+                        <li class="list-item" id="drone-name"><b>DRONE NAME: </b></li>
+                        <li class="list-item" id="ip-address"><b>IP ADDRESS: </b></li>
+                        <li class="list-item" id="threat-level"><b>THREAD LEVEL: </b> </li>
+                        <li class="list-item" id="location"><b>LOCATION: </b></li>
                     </ul>
                     
                     <ul class="drone-state-list">
-                        <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
+                        <!-- <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
                         <li class="list-item" id="acceleration"><b>Acceleration (m/s<sup>2</sup>): </b></li>
                         <li class="list-item" id="tilt"><b>Tilt (degrees): </b></li>
                         <li class="list-item" id="wind-speed"><b>Wind Speed (m/s): </b></li>
-                        <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li>
+                        <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li> -->
                     </ul>
                 </div>
             </div>
@@ -221,18 +220,29 @@
 
     <!-- ========================== THRID PARTY SCRIPTS ========================== -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- <script type="module" src="../../node_modules/chart.js/dist/chart.js"></script> -->
+
     <script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
-    <script type="module" src="https://unpkg.com/vtk.js"></script>
+    <!-- <script type="module" src="https://unpkg.com/vtk.js"></script> -->
+
 
     <!-- ========================== MY SCRIPTS ========================== -->
-    <script src="../scripts/modules/drone-state.js"></script>
+    <script type="module" src="../scripts/temp-value-updater.js"></script>
+    <!-- <script src="../scripts/modules/drone-state.js"></script>
     <script type="module" src="../scripts/modules/data-parser.js"></script>
     <script type="module" src="../scripts/modules/visual.js"></script>
-    <!-- <script type="module" src="../scripts/modules/value-updater.js"></script> -->
     <script type="module" src="../scripts/temp-value-updater.js"></script>
-    <script type="module" src="../scripts/client.js"></script>
+    <script type="module" src="../scripts/client.js"></script> -->
+    
+    <!-- <script type="module" src="../scripts/modules/value-updater.js"></script> -->
+
+    <!-- ========================== WEBPACK + BABEL ========================== -->
+    <script src="../../dist/bundle.js"></script>
+    
+
 </body>
 </html>

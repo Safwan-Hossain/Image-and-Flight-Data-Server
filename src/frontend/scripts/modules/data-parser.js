@@ -1,15 +1,17 @@
 import { ARRAY_DELIMITER,  DATA_DELIMITER, GRAPH_TYPES, VISUAL_METHOD, DEFAULT_PARSING_DATA } from "../../../shared-data/parsing-data.js";
 import { TimelineGraph } from "./graphs/timeline-graph.js";
 import { ExternalGraph } from "../separate-graph.js";
+import { TextualDisplayPanel } from "./ui/textual-display-panel.js";
 
 const CHART_HTML_ID_SUFFIX = '-chart';
 
+// Change name to UIManager
 export class DataParser {
     constructor() {
+        this.textualDisplay = new TextualDisplayPanel();
         this.parsingTags = {};
         this.graphs = {}
         this.isInitialized = false;
-
     }
 
     initialize() {
@@ -30,6 +32,7 @@ export class DataParser {
         if (visualMethods.includes(VISUAL_METHOD.VTK)) {
             // this.setupVTK(item);
         }
+        this.textualDisplay.addComponent(item.itemTag, item.displayName);
     }
 
     setupGraph(item) {
@@ -40,6 +43,47 @@ export class DataParser {
         else if (graphType == GRAPH_TYPES.MOTOR_GRAPH) {
             this.setupMotorGraph(item);
         }
+
+        this.setupComponentTextDisplay(item);
+    }
+
+    findTargetList() {
+        const droneStateDivider = document.getElementById('drone-state-divider');
+        const lists = droneStateDivider.getElementsByClassName('drone-state-list');
+        for (let list of lists) {
+            if (list.getElementsByTagName('li').length < 4) {
+                return list;
+            }
+        }
+        return null;
+    }
+
+    createNewListItem(content) {
+        const newItem = document.createElement('li');
+        newItem.classList.add('list-item');
+        newItem.innerHTML = `<b>${content}</b>`;
+        return newItem;
+    }
+
+    addComponentToDroneState(content) {
+        const targetList = this.findTargetList();
+        const listItem = this.createNewListItem(content);
+
+        if (targetList) {
+            targetList.appendChild(listItem);
+        } else {
+            const newList = document.createElement('ul');
+            newList.classList.add('drone-state-list');
+            newList.appendChild(listItem);
+            
+            const droneStateDivider = document.getElementById('drone-state-divider');
+            droneStateDivider.appendChild(newList);
+        }
+    }
+
+
+    setupComponentTextDisplay() {
+        
     }
 
     setupTimeGraph(item) {
@@ -84,6 +128,7 @@ export class DataParser {
     }
 
 
+// convert this to a data processor class
     handleData(data) {
         if (!this.isInitialized) {
             return;
@@ -100,6 +145,8 @@ export class DataParser {
     updateItem(itemTag, itemData) {
         const graphLinkedToItem = this.graphs[itemTag];
         
+        this.textualDisplay.updateText(itemTag, itemData);
+
         if (graphLinkedToItem == null) {
             return;
         }
@@ -151,5 +198,42 @@ export class DataParser {
         this.externalGraph = new ExternalGraph(itemTag);
         this.externalGraph.initialize(title, labels);
         
+    }
+}
+
+export class UIComponent {
+    constructor(componentTag) {
+        this.componentTag = componentTag;
+    }
+
+    addLineGraph(lineGraph) {
+        this.lineGraph = lineGraph;
+    }
+
+    addMotorGraph(motorGraph) {
+        this.motorGraph = motorGraph;
+    }
+
+    addVtkGraph(vtkGraph) {
+        this.vtkGraph = vtkGraph;
+    }
+
+    addDisplayText(textDisplay) {
+        this.textDisplay = textDisplay;
+    }
+
+    updateAll(newData) {
+        if (this.lineGraph) {
+            this.lineGraph.update(newData);
+        }
+        if (this.motorGraph) {
+            this.motorGraph.update(newData);
+        }
+        if (this.vtkGraph) {
+            this.vtkGraph.update(newData);
+        }
+        if (this.textDisplay) {
+            this.textDisplay.update(newData);
+        }
     }
 }
