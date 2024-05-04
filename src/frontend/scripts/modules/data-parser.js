@@ -1,7 +1,7 @@
-import { ARRAY_DELIMITER,  DATA_DELIMITER, GRAPH_TYPES, VISUAL_METHOD, DEFAULT_PARSING_DATA } from "../../../shared-data/parsing-data.js";
-import { TimelineGraph } from "./graphs/timeline-graph.js";
-import { ExternalGraph } from "../separate-graph.js";
-import { TextualDisplayPanel } from "./ui/textual-display-panel.js";
+import { ARRAY_DELIMITER,  DATA_DELIMITER, GRAPH_TYPES, VISUAL_METHOD, DEFAULT_PARSING_DATA } from "../../../config/parsing-data.js";
+import { TimelineGraph } from "../graphs/timeline-graph.js";
+import { ExternalGraph } from "../graphs/separate-graph.js";
+import { TextualDisplayPanel } from "../ui/textual-display-panel.js";
 
 const CHART_HTML_ID_SUFFIX = '-chart';
 

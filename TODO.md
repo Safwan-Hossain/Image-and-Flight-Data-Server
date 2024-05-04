@@ -9,6 +9,12 @@
 
 
 # TODO
+- improve separate graph
+- remove script in index.html
+- add functionality to buttons
+- improve colors 
+- add media queries
+- Consider using a buffer for incoming values
 - Consider using animation loop for updating certain modules such as vtk and video handler
 - Consider making a vector module instead of using raw data
 - add better color scheme for chart colors

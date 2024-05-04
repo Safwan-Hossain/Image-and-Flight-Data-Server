@@ -1,4 +1,4 @@
-import {ITEM_TAGS} from "../../shared-data/parsing-data.js"
+import {ITEM_TAGS} from "../../config/parsing-data.js"
 
 export const DATA_GENERATION_INTERVAL = 100; // Time (in ms) between data generation
 

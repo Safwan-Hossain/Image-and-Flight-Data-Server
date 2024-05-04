@@ -1,6 +1,6 @@
 import { SerialPortMock } from 'serialport'
 import { DATA_GENERATION_INTERVAL, COMPONENT_VALUES } from './mock-config.js';
-import { DATA_DELIMITER, ARRAY_DELIMITER, END_OF_LINE_DELIMITER, DEFAULT_PARSING_DATA } from '../../shared-data/parsing-data.js';
+import { DATA_DELIMITER, ARRAY_DELIMITER, END_OF_LINE_DELIMITER, DEFAULT_PARSING_DATA } from '../../config/parsing-data.js';
 
 
 

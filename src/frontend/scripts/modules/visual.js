@@ -1,15 +1,16 @@
-import { BatteryGraph } from './graphs/battery-graph.js'
+import { BatteryGraph } from '../graphs/battery-graph.js'
 import { DroneVisualizer } from './drone-visualizer.js';
-import { MotorGraph } from './graphs/motor-graph.js';
-import { TimelineGraph } from './graphs/timeline-graph.js';
+import { MotorGraph } from '../graphs/motor-graph.js';
+import { TimelineGraph } from '../graphs/timeline-graph.js';
 import { DataParser } from './data-parser.js';
+import { Config } from '../../../config/server-config.js';
 
 // vtk
 const vtkContainer = document.getElementById('vtkContainer');
-const stlURL = '../../../assets/stl/drone_model_centered.stl';
+const stlURL = Config.stl.relativeFileLocation;
+// const stlURL = '../../../assets/stl/drone_model_centered.stl';
 
 const droneVisualizer = new DroneVisualizer(vtkContainer, stlURL);
-// droneVisualizer.initializeRenderer();
 
 // battery
 const battery = document.querySelector('.charge');
@@ -36,12 +37,10 @@ export function tempUpdateView(data) {
     const ARRAY_DELIM  = ',';
     const DATA_DELIM  = '|';
 
-    // console.log(data);
     const parsedData = data.split(DATA_DELIM);
     const MOTOR_SIGNAL_INDEX = 2;
     const ORIENTATION_INDEX = 1;
     const BATTERY_INDEX = 5;
-    console.log(parsedData[ORIENTATION_INDEX]);
 
     
     let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);

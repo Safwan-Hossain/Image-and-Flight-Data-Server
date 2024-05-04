@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Blocks</title>
+    <style>
+        .container {
+            width: 100%;
+            border-bottom: 2px solid black;
+            white-space: nowrap;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+        .draggable {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: 1px solid black;
+        }
+        #block1 { background-color: lightblue; }
+        #block2 { background-color: lightgreen; }
+        #block3 { background-color: lightcoral; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="block1" draggable="true" class="draggable">Block 1</div>
+        <div id="block2" draggable="true" class="draggable">Block 2</div>
+        <div id="block3" draggable="true" class="draggable">Block 3</div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.draggable').forEach(item => {
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragover', handleDragOver);
+            item.addEventListener('drop', handleDrop);
+        });
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const draggableElement = document.getElementById(id);
+            const dropzone = e.target;
+
+            swapElements(draggableElement, dropzone);
+        }
+
+        function swapElements(elem1, elem2) {
+            const clonedElement1 = elem1.cloneNode(true);
+            const clonedElement2 = elem2.cloneNode(true);
+
+            elem2.parentNode.insertBefore(clonedElement1, elem2);
+            elem1.parentNode.insertBefore(clonedElement2, elem1);
+
+            elem1.parentNode.removeChild(elem1);
+            elem2.parentNode.removeChild(elem2);
+        }
+
+    </script>
+</body>
+</html>
