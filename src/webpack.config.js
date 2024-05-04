@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // console.log(path.join(process.cwd(), 'dist'))
+console.log(path.resolve(__dirname, 'node_modules/vtk.js/Sources'))
 
 export default {
   mode: 'development',
@@ -12,10 +13,7 @@ export default {
     filename: 'bundle.js', 
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    // alias: {
-    //   '@kitware/vtk.js': path.resolve(__dirname, 'node_modules/@kitware/vtk.js'),
-    // },
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
   },
   
   module: {

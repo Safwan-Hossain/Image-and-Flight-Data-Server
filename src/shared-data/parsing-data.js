@@ -4,8 +4,8 @@
 // E.g. orientation data and location data may look like this:  
 // 0,0,0|1,1,1 where 0,0,0 is the XYZ of the orientation and is seperated by the data delimiter '|'
 
-export const DATA_DELIMITER  = ','; 
-export const ARRAY_DELIMITER  = '|';
+export const DATA_DELIMITER  = '|'; 
+export const ARRAY_DELIMITER  = ',';
 export const END_OF_LINE_DELIMITER = "\r\n"; 
 
 export const ITEM_TAGS = {
@@ -32,10 +32,9 @@ export const GRAPH_TYPES = {
 
 export const DEFAULT_PARSING_DATA = {
     itemIndexes: {
-        0: ITEM_TAGS.ORIENTATION,
-        1: ITEM_TAGS.ANGULAR_RATE,
-        2: ITEM_TAGS.MAGNETOMETER,
-        3: ITEM_TAGS.MOTOR_SIGNALS,
+        0: ITEM_TAGS.ANGULAR_RATE,
+        1: ITEM_TAGS.ORIENTATION,
+        2: ITEM_TAGS.MOTOR_SIGNALS,
         // 4: ITEM_TAGS.TEMPERATURE,
         // 5: ITEM_TAGS.BATTERY
     },
@@ -90,7 +89,7 @@ export const DEFAULT_PARSING_DATA = {
             graphSettings: {
                 type: GRAPH_TYPES.TIME_GRAPH,
                 title: "ANGULAR RATE",
-                lineLabels: ['Roll', 'Desired Roll'],
+                lineLabels: ['Actual Roll Rate', 'Desired Roll Rate'],
                 xAxis: {
                     min: -10,
                     max: 0,

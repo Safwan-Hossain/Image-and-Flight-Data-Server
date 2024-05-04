@@ -97,11 +97,10 @@ export class CommunicationManager {
         console.log(serialData);
         
         this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.SERIAL_DATA, serialData);
-        // this.delay++;
-        // if (this.delay % 100 == 0) {
-        //     this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.SERIAL_DATA, serialData);
-
-        // }
+        this.delay++;
+        if (this.delay % 1000000 == 0) {
+            this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.SERIAL_DATA, serialData);
+        }
     }
 
     tryConnectingToNewPort(newPort) {

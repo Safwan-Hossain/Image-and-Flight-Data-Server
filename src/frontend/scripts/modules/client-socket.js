@@ -5,6 +5,8 @@ import { SERVER_EVENT_TAGS, CLIENT_EVENT_TAGS } from '../../../shared-data/event
 import { CLIENT_ROLES } from '../../../shared-data/roles.js';
 import { tempUpdateView } from './visual.js'
 
+import io from 'socket.io-client';
+
 
 const SERVER_PORT = Config.server.serverPort;
 

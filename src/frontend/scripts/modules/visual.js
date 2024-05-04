@@ -33,14 +33,16 @@ dataParser.initialize();
 
 
 export function tempUpdateView(data) {
-    const ARRAY_DELIM  = '|';
-    const DATA_DELIM  = ',';
+    const ARRAY_DELIM  = ',';
+    const DATA_DELIM  = '|';
 
-
+    // console.log(data);
     const parsedData = data.split(DATA_DELIM);
-    const MOTOR_SIGNAL_INDEX = 3;
-    const ORIENTATION_INDEX = 0;
+    const MOTOR_SIGNAL_INDEX = 2;
+    const ORIENTATION_INDEX = 1;
     const BATTERY_INDEX = 5;
+    console.log(parsedData[ORIENTATION_INDEX]);
+
     
     let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);
     let orientation = parsedData[ORIENTATION_INDEX].split(ARRAY_DELIM);

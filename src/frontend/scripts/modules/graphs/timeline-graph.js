@@ -1,5 +1,5 @@
 import { DEFAULT_TIMELINE_GRAPH_CONFIG, DEFAULT_TIMELINE_COLORS } from "./-default-graph-config.js";
-
+import Chart from 'chart.js/auto';
 
 export class TimelineGraph {
     // constructor(canvasId, datasetLabels, customConfig = {}) {
