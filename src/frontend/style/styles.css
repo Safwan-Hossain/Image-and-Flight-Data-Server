@@ -130,14 +130,11 @@
 
 
 body {
-    color: #333;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
-    justify-content: center;
-    align-items: center; 
+    font-family: 'Roboto', sans-serif; /* Modern, clean sans-serif font */
+    background-color: #28242c; /* Dark background for the whole page */
+    color: #ffffff; /* Light text color for readability */
     margin: 0;
-    /* padding: 50px 0; */
-    /* padding-top: 50px; */
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -147,6 +144,21 @@ body {
 }
 
 #loading-spinner {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.loader-container {
+    text-align: center;
+}
+
+.loader {
     border: 4px solid #f3f3f3; /* Light grey */
     border-top: 4px solid #3498db; /* Blue */
     border-radius: 50%;

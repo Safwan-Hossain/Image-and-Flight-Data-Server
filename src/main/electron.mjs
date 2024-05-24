@@ -6,7 +6,7 @@ let serverProcess = null;
 
 function createWindow () {
   // Start the Node server
-  serverProcess = spawn('node', ['./backend/main.mjs']);
+  serverProcess = spawn('node', ['./src/backend/server/main.mjs']);
 
   serverProcess.stdout.on('data', (data) => {
     console.log(`Server: ${data}`);
@@ -24,12 +24,12 @@ function createWindow () {
       nodeIntegration: true,
       contextIsolation: false, // Adjust based on your security needs
     },
-    icon: '../assets/icons/app-icon.ico' // Example path to icon
+    icon: './public/assets/icons/app-icon.ico' // Example path to icon
   });
 
   mainWindow.maximize();
   // Load the index.html of the app.
-  mainWindow.loadFile('./frontend/html/index.html'); // Adjust the path as needed
+  mainWindow.loadFile('./public/index.html'); // Adjust the path as needed
   const contextMenu = new Menu();
   contextMenu.append(new MenuItem({
     label: 'Inspect Element',
