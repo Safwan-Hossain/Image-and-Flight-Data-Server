@@ -4,6 +4,7 @@ import { MotorGraph } from '../graphs/motor-graph.js';
 import { TimelineGraph } from '../graphs/timeline-graph.js';
 import { DataParser } from './data-parser.js';
 import { Config } from '../../../config/server-config.js';
+import { ConsoleLogger, LogLevel } from '../logger/console-logger.js';
 
 // vtk
 const vtkContainer = document.getElementById('vtkContainer');
@@ -29,11 +30,15 @@ const motorGraph = new MotorGraph(motorGraphElement);
 // rotationGraph.setTitle('ORIENTATION');
 // rotationGraph.setYAxisRange(0, 360, 60);
 
+// Console logger
+const consoleLogger = new ConsoleLogger('console');
+
 const dataParser = new DataParser();
 dataParser.initialize();
 
 
 export function tempUpdateView(data) {
+    consoleLogger.logMessage(LogLevel.INFO, 'Raw Data: ' + data);
     const ARRAY_DELIM  = ',';
     const DATA_DELIM  = '|';
 

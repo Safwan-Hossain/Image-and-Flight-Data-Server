@@ -3,108 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drone GUI2</title>
+    <title>GUI</title>
     
     <link href="./assets/style/fontawesome/css/solid.css" rel="stylesheet">
     <link href="./assets/style/fontawesome/css/regular.css" rel="stylesheet">
     <link href="./assets/style/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link rel="preload" href="../src/frontend/style/styles.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../src/frontend/style/styles.css"></noscript>
+    
+    <link rel="stylesheet" type="text/css" href="../src/frontend/style/graphs.css">    
+    <!-- <link rel="stylesheet" type="text/css" href="../src/frontend/style/styles.css">     -->
+    
+
 </head>
 <body>
         
-    <!-- Dropdown Menu -->
-    <page class="scrollable-page" id="page-1">
-        <div id="main-menu-container">
-            <div id="controls-header">
-                <h2>Available Ports</h2> 
-                <div id="loading-spinner" style="display: none;"></div>
-            </div>
-            <div class="controls">
-                <select id="option-select">
-                    <option value="default">Select an Option</option>
-                </select>
-                <button type="button" id="eject-button" title="Disconnect">
-                    <i class="fa-solid fa-eject fa-xl"></i>
-                </button>
-                <button id="refresh-button" title="Refresh List">
-                    <i class="fa-solid fa-arrows-rotate fa-xl"></i>
-                </button>   
-            </div>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <div class="menu">
+            <a href="#page-1" title="Settings" class="menu-link" data-target="settings-page"><i class="fa-solid fa-gear"></i></a>
+            <a href="#page-2" title="Charts" class="menu-link" data-target="charts-page"><i class="fa-solid fa-chart-line"></i></a>
+            <a href="#page-3" title="Console" class="menu-link" data-target="page-1"><i class="fa-solid fa-terminal"></i></a>
         </div>
-    </page>
+    </div>
 
-    <page class="scrollable-page" id="page-2">
-        <div class="grid-container">
-            <!-- Left Column for Charts -->
-            <div id="chart-column">
-                <!-- <div class="chart" id="chart-container1">
-                    <canvas id="timelineChart1" class="timelineChart"></canvas>
-                </div> -->
-            </div>
-    
-            <div class="video-container">
-                <img id="video-stream" src="" alt="Video Stream">
-                <div id="video-not-started"></div>
-                <div id="video-loading"></div>
-                <div id="video-placeholder">
-                    <!-- No video found -->
-                    <div class="spinner"></div>
-                </div>
-            </div>
-    
-            
-            <div class="motor-graph-container">
-                <canvas id="myBarChart"></canvas>
-            </div>
-    
-            <div id="vtkContainer"></div>
-    
-            <div id="buttonContainer">
-                <h3 id="buttonContainerHeading">Available Drones</h3>
-            </div>
-            <!-- === BATTERY === -->
-            <div class="battery-container">
-                <div class="battery-top"></div>
-                <div class="battery">
-                    <div class="charge"></div>
-                    <div id="lightningSymbol" style="display: none;">
-                        <i class="fa-solid fa-bolt"></i>
+    <!-- Page Container -->
+    <div class="pages-container">
+        <div class="pages-background"></div>
+        <!-- Settings Page -->
+        <page class="page" id="settings-page">
+            <h2 class="page-title">Settings</h2>
+            <hr class="line-divider">
+            <div class="page-subcontent-container">
+                    <div id="ports-header">
+                        <h4>Serial Ports </h4> 
+                        <p>Select the appropriate serial port to receive data from</p>
+                        <div id="loading-spinner" style="display: none;"></div>
+                    </div>
+                    <div class="controls">
+                        <select id="ports-option-select">
+                            <option value="default">Select an Option</option>
+                        </select>
+                        <button type="button" id="eject-button" title="Disconnect">
+                            <i class="fa-solid fa-eject fa-xl"></i>
+                        </button>
+                        <button id="refresh-button" title="Refresh List">
+                            <i class="fa-solid fa-arrows-rotate fa-xl"></i>
+                        </button>   
+                    </div>
+            </div>            
+        </page>
+
+        
+        <!-- Charts Page -->
+        <page class="page" id="charts-page">
+            <div class="grid-container">
+                <!-- Left Column for Charts -->
+                <div id="chart-column"></div>
+        
+                <div class="video-container">
+                    <img id="video-stream" src="" alt="Video Stream">
+                    <div id="video-not-started"></div>
+                    <div id="video-loading"></div>
+                    <div id="video-placeholder">
+                        <div class="spinner"></div>
                     </div>
                 </div>
-                <div id="batteryPercentage">0%</div>
-                <div>Charge Rate: <span id="chargeRate">511</span></div>
-            </div>
-            <!-- === BATTERY === -->
-    
-    
-            <div class="info-list">
-                <!-- <h2>DRONE STATE INFORMATION</h2> -->
-                <div id="drone-state-divider">
-                    <ul class="drone-state-list">
-                        <li class="list-item" id="drone-name"><b>DRONE NAME: </b></li>
-                        <li class="list-item" id="ip-address"><b>IP ADDRESS: </b></li>
-                        <li class="list-item" id="threat-level"><b>THREAD LEVEL: </b> </li>
-                        <li class="list-item" id="location"><b>LOCATION: </b></li>
-                    </ul>
-                    
-                    <ul class="drone-state-list">
-                        <!-- <li class="list-item array-item" id="velocity"><b>Velocity (m/s): </b></li>
-                        <li class="list-item" id="acceleration"><b>Acceleration (m/s<sup>2</sup>): </b></li>
-                        <li class="list-item" id="tilt"><b>Tilt (degrees): </b></li>
-                        <li class="list-item" id="wind-speed"><b>Wind Speed (m/s): </b></li>
-                        <li class="list-item" id="battery-percentage"><b>Battery Percentage: </b></li> -->
-                    </ul>
+        
+                <div  class="motor-graph-container">
+                    <canvas id="myBarChart"></canvas>
+                </div>
+        
+                <div id="vtkContainer"></div>
+        
+                <div id="buttonContainer">
+                    <h3 id="buttonContainerHeading">Available Drones</h3>
+                </div>
+                
+                <div class="battery-container">
+                    <div class="battery-top"></div>
+                    <div class="battery">
+                        <div class="charge"></div>
+                        <div id="lightningSymbol" style="display: none;">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                    </div>
+                    <div id="batteryPercentage">0%</div>
+                    <div>Charge Rate: <span id="chargeRate">511</span></div>
+                </div>
+        
+                <div id="console"></div>
+                <div class="info-list">
+                    <div id="drone-state-divider">
+                        <ul class="drone-state-list">
+                            <!-- <li class="list-item" id="drone-name"><b>DRONE NAME: </b></li>
+                            <li class="list-item" id="ip-address"><b>IP ADDRESS: </b></li>
+                            <li class="list-item" id="threat-level"><b>THREAD LEVEL: </b></li>
+                            <li class="list-item" id="location"><b>LOCATION: </b></li> -->
+                        </ul>
+                        <ul class="drone-state-list"></ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </page>
+        </page>
+        
+        <div class="pages-background"></div>
+    </div>
+
     
 
     
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             
-            const selectElement = document.getElementById('option-select');
+            const navbar = document.getElementById('navbar');
+            const content = document.getElementById('content');
+            const menuLinks = document.querySelectorAll('.navbar .menu a');
+            const highlight = document.createElement('div');
+            highlight.classList.add('highlight');
+            document.querySelector('.navbar .menu').appendChild(highlight);
+
+            // Function to set the highlight position and size
+            function setHighlight(link) {
+                // Remove the active class from all links
+                menuLinks.forEach(link => link.classList.remove('active'));
+
+                // Add the active class to the provided link
+                link.classList.add('active');
+
+                // Get the dimensions of the provided link
+                const linkRect = link.getBoundingClientRect();
+                const menuRect = link.parentNode.getBoundingClientRect();
+
+                // Set the position and size of the highlight element
+                highlight.style.top = `${linkRect.top - menuRect.top}px`;
+                highlight.style.height = `${linkRect.height}px`;
+                highlight.style.width = `${linkRect.width}px`;
+            }
+
+            // Function to switch pages
+            function switchPage(targetId) {
+                const pages = document.querySelectorAll('.page');
+                pages.forEach(page => {
+                    page.style.display = 'none';
+                    page.classList.remove('active');
+                });
+                const targetPage = document.getElementById(targetId);
+                if (targetPage) {
+                    targetPage.style.display = 'flex';
+                    targetPage.classList.add('active');
+                }
+            }
+
+            // Initialize the highlight for the first link or any link that should be active initially
+            setHighlight(menuLinks[0]);
+            switchPage('charts-page'); // Change this if you want another page to be active by default
+
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Highlight the clicked menu link
+                    setHighlight(this);
+
+                    // Switch to the corresponding page
+                    const targetId = this.getAttribute('data-target');
+                    switchPage(targetId);
+                });
+            });
+            
+            
+            const selectElement = document.getElementById('ports-option-select');
             const spinner = document.getElementById('loading-spinner');
             const mainContent = document.getElementsByClassName('grid-container')[0];
     
@@ -120,18 +192,15 @@
                     setTimeout(() => {
                         // Hide spinner after operation
                         spinner.style.display = 'none';
-                        document.getElementById('main-menu-container').style.display = 'none';
-                        mainContent.style.display = 'grid';
+                        // document.getElementById('main-menu-container').style.display = 'none';
+                        // mainContent.style.display = 'grid';
                     }, 1000); 
                     
                 }
             });
         });
     </script>
-    
-    <!-- ========================== STYLE SHEETS ==========================  -->
-    <link rel="stylesheet" type="text/css" href="../src/frontend/style/styles.css">    
-    <link rel="stylesheet" type="text/css" href="../src/frontend/style/graphs.css">    
+
 
     <!-- ========================== THRID PARTY SCRIPTS ========================== -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Console Simulation</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: monospace;
+        }
+        #console {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #333;
+            padding: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column-reverse;
+            background-color: #1e1e1e;
+        }
+        .log {
+            margin: 0;
+            padding: 0;
+        }
+        .log .level {
+            font-weight: bold;
+        }
+        .log .info {
+            color: #00ff00; /* Green for INFO */
+        }
+        .log .warn {
+            color: #ffff00; /* Yellow for WARN */
+        }
+        .log .error {
+            color: #ff0000; /* Red for ERROR */
+        }
+        .log .time {
+            color: #1e90ff; /* Blue for TIME */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="console"></div>
+
+    <script>
+        const consoleElement = document.getElementById('console');
+        const maxLines = 10;
+
+        function logMessage(level, message) {
+            const time = new Date().toLocaleTimeString();
+            const logElement = document.createElement('div');
+            logElement.className = 'log';
+            logElement.innerHTML = `<span class="level ${level.toLowerCase()}">[${level.toUpperCase()}]</span><span class="time">[${time}]</span>: ${message}`;
+            consoleElement.appendChild(logElement);
+
+            if (consoleElement.childElementCount > maxLines) {
+                consoleElement.removeChild(consoleElement.firstElementChild);
+            }
+        }
+
+        // Example usage:
+        logMessage('INFO', 'Server Connected!');
+        logMessage('WARN', 'Low Disk Space');
+        // logMessage('ERROR', 'Server Crashed');
+
+        setInterval(() => {
+            const levels = ['INFO', 'WARN', 'WARN'];
+            const level = levels[Math.floor(Math.random() * levels.length)];
+            logMessage(level, 'New message logged');
+        }, 1000);
+    </script>
+</body>
+</html>

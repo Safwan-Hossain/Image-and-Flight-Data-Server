@@ -7,7 +7,7 @@ export class ViewSetupHandler {
 
     onServerStarted() {
         this.serverIsRunning = true;
-
+        
     }
 
     onSerialPortSelected() {

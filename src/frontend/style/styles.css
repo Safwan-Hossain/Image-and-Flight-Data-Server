@@ -1,147 +1,329 @@
 
+
+/* ========================================= */
+/* ================== ROOT ================= */
+/* ========================================= */
+
+:root {
+    
+    --body-background-color: #09090b;
+    --navbar-background-color: #09090b;
+    --settings-page-background-color: #161618; 
+    --charts-page-background-color: #161618; 
+    --console-page-background-color: #f7f7f7;
+
+    --line-divider-color: #14141863;
+    --line-divider-lighter-color: #3b7777;
+
+    --page-content-width: 50%;
+
+    --font-size: 16px;
+    --padding: 1rem;
+}
+
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../../../public/assets/fonts/Inter-VariableFont_slnt_wght.ttf') format('truetype');
+    font-weight: 100 900; /* Supports weights from 100 to 900 */
+    font-style: normal;
+}
+
 /* ========================================= */
 /* =============== SCROLLBAR =============== */
 /* ========================================= */
 
-/* Style for the scrollbar track */
+/* ----------- DEFAULT SCROLLBAR ----------- */
+
 ::-webkit-scrollbar-track {
-    background-color: #f1f1f1; 
+    background-color: var(--body-background-color); 
     border-radius: 10px;
 }
 
-/* Style for the scrollbar handle */
 ::-webkit-scrollbar-thumb {
-    background-color: #46bcc922; 
+    background-color: #4e4e4e; 
+    border-radius: 8px; 
+    height: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #999999; 
+}
+
+::-webkit-scrollbar {
+    width: 10px; 
+    height: 5px; 
+}
+
+/* ----------- GRAPHS SCROLLBAR ----------- */
+
+#chart-column::-webkit-scrollbar-track {
+    background-color: #3e696e; 
+    border-radius: 10px;
+}
+
+#chart-column::-webkit-scrollbar-thumb {
+    background-color: #fafafa; 
     border-radius: 8px; 
 }
 
-/* Handle hover style */
-::-webkit-scrollbar-thumb:hover {
-    background-color: #555; 
+#chart-column::-webkit-scrollbar-thumb:hover {
+    background-color: #cf0e0e; 
 }
 
-/* Style for the scrollbar itself (width/height) */
-::-webkit-scrollbar {
-    width: 5px; 
+#chart-column::-webkit-scrollbar {
+    width: 10px; 
     height: 5px; 
 }
 
 
-
-.scrollable-page {
-    height: 100vh;
-    width: 100vw;
-    display: block;
-}
-
-#page-1 {
-    background-color: #283241;
-}
-
-/* #page-2 {
-    background-color: #2e2e2e;
-} */
-
 /* ========================================= */
-/* =============== MAIN MENU =============== */
+/* ================== BODY ================= */
 /* ========================================= */
 
-#main-menu-container {
-    text-align: center;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    position: relative;
-    top: 10%;
-    left: 50%;
-    max-width: 600px;
-    transform: translateX(-50%);
+html {
+    height: 100%;
 }
-
-
-/* --------- MODAL --------- */
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-}
-
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Style for the dropdown header */
-.dropdown-header {
-    padding: 10px;
-    background-color: #f8f9fa;
-    cursor: pointer;
-}
-
-/* Initially hide the dropdown content */
-.dropdown-content {
-    display: none;
-    padding: 10px;
-    background-color: white;
-}
-
-/* Style for form inputs */
-.form-input {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.axis-settings {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-}
-
-
-/* ====================== */
-
-
 body {
-    font-family: 'Roboto', sans-serif; /* Modern, clean sans-serif font */
-    background-color: #28242c; /* Dark background for the whole page */
+    font-family: 'Inter', sans-serif; /* Modern, clean sans-serif font */
+    background-color: var(--body-background-color); /* Dark background for the whole page */
     color: #ffffff; /* Light text color for readability */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    display: flex;
+    height: 100%;
 }
 
-#controls-header {
+/* ========================================= */
+/* =============== NAVBAR =============== */
+/* ========================================= */
+
+
+.navbar {
+    position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background: var(--navbar-background-color);
+    padding: 2rem 0.5rem;
+    height: 100%;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    width: 60px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
+
+.navbar.expanded {
+    width: 250px;
+}
+
+navbar .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.navbar.expanded .logo {
+    opacity: 1;
+}
+
+
+.navbar .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    position: relative;
+}
+
+.navbar .menu a {
+    color: #f2f2f2;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+    z-index: 1;
+}
+/* .navbar .menu a.active {
+    background-color: #0056b3; 
+    color: #fff;
+} */
+
+.navbar .menu a.active {
+    color: #fff;
+}
+
+.navbar .highlight {
+    position: absolute;
+    background-color: rgba(0, 86, 179, 0.5); /* Change this to your desired highlight color */
+    border-radius: 5px;
+    transition: top 0.3s ease, height 0.3s ease, width 0.3s ease;
+    z-index: 0;
+}
+
+.navbar .menu a:hover {
+    color: #fff;
+}
+
+.navbar.expanded .menu a {
+    opacity: 1;
+}
+
+
+.navbar .toggle-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+/* ============================================ */
+/* ================== PAGES =================== */
+/* ============================================ */
+
+.pages-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    margin-left: 60px;
+    overflow: auto;
+    transition: margin-left 0.3s ease;
+    height: 100%;
+}
+
+/* background above and below a page */
+.pages-background {
+    flex-shrink: 0; 
+    height: 8px;
+    background-color: var(--body-background-color);
+}
+
+.pages-container.expanded {
+    margin-left: 250px;
+}
+
+.page {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    
+    margin: 0;
+    margin-left: 20px;
+    margin-right: 10px;
+    border: 2px solid rgb(34, 34, 34);
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    
+    min-width: 1200px;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* ============================================= */
+/* =============== SETTINGS PAGE =============== */
+/* ============================================= */
+
+
+#settings-page {
+    padding-top: 30px;
+    
+    background-color: var(--settings-page-background-color);
+}
+
+#charts-page {
+    padding-top: 20px;
+    background-color: var(--charts-page-background-color);
+}
+
+.page-title {
+    width: var(--page-content-width);
+}
+
+.line-divider {
+    width: var(--page-content-width);
+    border-color: var(--line-divider-color);
+}
+
+.page-subcontent-container {
+    width: var(--page-content-width);
+    
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+    gap: 1rem; 
+
+    text-align: center;
+    padding-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    /* width: 100%; */
+    margin: 0;
+    /* margin: auto; */
+}
+
+/* #ports-form-container {
+    
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+    gap: 1rem; 
+
+    text-align: center;
+    padding-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    margin: 0;
+} */
+
+.page-subcontent-container  h4 {
+
+    text-align:start; 
+    margin: 0;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+}
+
+.page-subcontent-container  p {
+    color: #afafaf;
+}
+
+#ports-header {
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin: 0;
+    padding: 0;
+}
+
+#ports-header p{
+    margin: 0;
+    padding: 0;
+    text-align: start;
+}
+
 
 #loading-spinner {
     border: 4px solid #f3f3f3; /* Light grey */
@@ -187,6 +369,7 @@ body {
     border-radius: 5px; 
     cursor: pointer; 
     transition: background-color 0.05s; 
+    height: 45px;
 }
 
 #refresh-button:hover {
@@ -195,13 +378,21 @@ body {
 
 
 #eject-button {
-    background-color: #f44336; 
+    background-color: #242427;
     color: white; 
     padding: 10px 15px; 
     border: none;
-    border-radius: 5px; 
     cursor: pointer;
+    margin: 0;
     transition: background-color 0.05s; 
+    
+    border-radius: 6px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0px;
+    /* padding: 10px 13px; */
+    border: 2px solid var(--line-divider-color);
+    border-left: none;
+    height: 45px;
 }
 
 #eject-button:hover {
@@ -209,45 +400,48 @@ body {
 }
 
 
-#main-menu-container h2 {
-    color: #333; 
-    text-align: center; 
-    margin: 0 0 20px; 
-    font-size: 24px; 
-}
 
 .controls button {
     margin-right: 0px; 
 }
 
 .controls {
+    margin: 0;
     display: flex;
-    align-items: center; 
+    flex-direction: row;
+    align-items: start; 
     justify-content: center;
+    width: 60%;
 }
 
-/* Style for the select element */
-#option-select {
-    flex-grow: 1; 
-
-    padding: 12px 15px;
-    border-radius: 6px;
-    border: 1px solid #ccd0d5;
-    background-color: white;
+#ports-option-select {
+    /* flex-grow: 1;  */
+    font-family: 'Inter', sans-serif; 
+    padding: 10px 13px;
+    background-color: #242427;
     font-size: 16px;
-    color: #4a5568;
+    color: #ffffff;
     cursor: pointer;
-    width: calc(100% - 30px); /* Full width minus padding */
+    /* width: calc(100% - 30px);  */
+    width: 50%;
+
+    border: 2px solid var(--line-divider-color);
+    border-radius: 6px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0px;
+    border-right: none;
+    height: 45px;
+    box-sizing: border-box;
 }
 
-#option-select:hover {
-    border-color: #a0aec0;
+
+#ports-option-select:hover {
+    border-color: var(--line-divider-lighter-color);
 }
 
-#option-select:focus {
+#ports-option-select:focus {
     outline: none;
-    border-color: #63b3ed;
-    box-shadow: 0 0 0 1px #63b3ed;
+    border-color:  var(--line-divider-lighter-color);
 }
 
 button:disabled {
@@ -282,102 +476,12 @@ button:hover {
 }
 
 /* Style for options */
-#option-select option {
+#ports-option-select option {
     padding: 10px;
     background-color: white;
     color: #333;
 }
 
-.grid-container {
-    display: none;
-    /* display: grid; */
-    grid-template-columns: 300px 1fr 1fr 1fr; /* Adjust to suit your content */
-    grid-template-rows: .15r .15fr 4fr;
-    grid-gap: 10px; /* Space between grid items */
-    grid-template-areas: 
-        "charts video vtk buttons"
-        "charts video motors battery"
-        "charts info info info"; /* Defining grid areas */
-    padding: 20px; /* Add some padding around the grid */
-    align-items: start; /* Align items to the start of their respective rows */
-}
-
-#chart-column {
-    grid-area: charts;
-    overflow-y: scroll; /* Enable vertical scrolling */
-    overflow-x: hidden; /* Enable vertical scrolling */
-    height: 700px; 
-    width: 300px; 
-}
-
-.chart {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 2%;
-    margin-right: 10%;
-    
-    /* border-radius: 15px; */
-
-    width: 100%; 
-    margin-bottom: 10px; /* Space between charts */
-
-    background-color: #f7f7f7; /* Light grey background */
-    border-radius: 5px; /* Rounded corners for the container */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Simple shadow for depth */
-}
-
-#vtkContainer {
-    background-color: #52576e;
-    border: 2px solid #4caf50;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    
-    overflow: hidden; /* This will clip the VTK render window */
-
-    grid-area: vtk;
-    height: 200px;
-    width: 200px;
-    margin-right: 15px; /* Spacing between containers */
-}
-
-.video-container {
-    grid-area: video;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1; /* Allow the video container to grow and occupy available space */
-    /* border: 10px solid #000000; */
-    height: 430px;
-    width: 700px;
-    overflow: hidden;
-}
-
-#video-stream {
-    display: none;
-    width: 100%;
-}
-
-#video-placeholder {
-    display: flex;
-    background-color: black; /* Black background */
-    color: white; /* White text color */
-    width: 100%; /* Take the full width of the container */
-    height: 100%; /* Take the full height of the container */
-    justify-content: center; /* Center the text horizontally */
-    align-items: center; /* Center the text vertically */
-    font-size: 30px; /* Increase the font size of the text */
-}
-
-.spinner {
-    border: 4px solid rgba(255, 255, 255, 0.3); /* Light white border */
-    border-top: 4px solid rgb(223, 20, 20); /* Solid white top border */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin-left: 10px; 
-}
 
 /* @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -406,47 +510,6 @@ button:hover {
 }
 
 
-.info-list {
-    grid-area: info;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-    color: white;
-    background-color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.info-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.info-list h2 {
-    margin:0;
-    text-align: center;
-}
-
-
-.motor-graph-container {
-    grid-area: motors;
-    width: 150px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 25px;
-    background-color: #fff;
-    border: 2px solid #4caf50;
-    border-radius: 15px;
-
-
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
 
 
 /* Style the button container */

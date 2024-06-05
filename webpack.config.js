@@ -1,8 +1,7 @@
 import path, { dirname } from 'path';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-// console.log(path.join(process.cwd(), 'dist'))
-console.log(path.resolve(__dirname, 'node_modules/vtk.js/Sources'))
+// const __dirname = path.dirname(new URL(import.meta.url).pathname);
+// console.log(path.resolve(__dirname, 'node_modules/vtk.js/Sources'))
 
 export default {
   mode: 'development',

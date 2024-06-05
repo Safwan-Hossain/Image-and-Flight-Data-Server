@@ -116,7 +116,22 @@ export const DEFAULT_PARSING_DATA = {
                     step: 2
                 }
             }
-        },
+        },        
+        {
+            displayName: "Temperature",
+            itemTag: ITEM_TAGS.TEMPERATURE,
+            visualMethods: [VISUAL_METHOD.GRAPH],
+            graphSettings: {
+                type: GRAPH_TYPES.TIME_GRAPH,
+                title: "TEMPERATURE",
+                lineLabels: ['X', 'Y', 'Z'],
+                xAxis: {
+                    min: -10,
+                    max: 0,
+                    step: 2
+                }
+            }
+        }
         
     ]
 }

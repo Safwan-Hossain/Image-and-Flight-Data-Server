@@ -110,7 +110,7 @@ export class ClientSocket {
     }
 
     onReceiveSerialPortList(serialPorts) {
-        const selectElement = document.getElementById('option-select');
+        const selectElement = document.getElementById('ports-option-select');
 
         this.removeNonExistingPorts(selectElement, serialPorts);
         this.addNewPorts(selectElement, serialPorts);
@@ -141,12 +141,7 @@ export class ClientSocket {
                 if (serialPort.isAlreadyConnected === true) {
                     option.selected = true; 
                     option.style.backgroundColor = 'yellow'; 
-                    
-                    // TEMP
-                    document.getElementById('main-menu-container').style.display = 'none';
-                    const mainContent = document.getElementsByClassName('grid-container')[0];
-                    mainContent.style.display = 'grid';
-                    // TEMP
+                
                 }
             }
             

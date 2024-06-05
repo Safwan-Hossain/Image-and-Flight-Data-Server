@@ -5,69 +5,77 @@ export class TextualDisplayPanel {
     }
     
     updateText(componentTag, data) {
-        const listItem = this.getListItem(componentTag);
-        const spanElement = listItem.querySelector('span');
-        spanElement.textContent = data; 
+        const dataValuesElement = this.getDataValuesElement(componentTag);
+        const roundedData = this.roundCommaSeparatedNumbers(data);
+        dataValuesElement.textContent = roundedData; 
     }
 
-    getListItem(componentTag) {
+    getDataValuesElement(componentTag) {
         const textComponent = this.textComponents[componentTag];
         if (!textComponent) {
-            throw Error("Text component does not exist for tag: " + componentTag)
+            throw Error("Text component does not exist for tag: " + componentTag);
         }
-        return textComponent.listItem;
+        return textComponent.dataValuesElement;
     }
-
+    
     addComponent(componentTag, componentLabel) {
-        const listItem = this.setupNewListItem(componentLabel);
+        const dataItem = this.setupNewDataItem(componentLabel, componentTag);
         
         this.textComponents[componentTag] = {
             label: componentLabel,
-            listItem: listItem
-        }
+            dataItem: dataItem,
+            dataValuesElement: dataItem.querySelector('.data-values')
+        };
     }
-    
-    findTargetList() {
+
+    findTargetContainer() {
         const droneStateDivider = document.getElementById('drone-state-divider');
-        const lists = droneStateDivider.getElementsByClassName('drone-state-list');
-        for (let list of lists) {
-            if (list.getElementsByTagName('li').length < 4) {
-                return list;
+        const containers = droneStateDivider.getElementsByClassName('drone-state-container');
+        for (let container of containers) {
+            if (container.getElementsByClassName('data-item').length < 4) {
+                return container;
             }
         }
         return null;
     }
 
-    createNewListItem(itemLabel) {
-        const newListItem = document.createElement('li');
-        newListItem.classList.add('list-item');
-        newListItem.innerHTML = `<b>${itemLabel}:</b> <span></span>`;
-        return newListItem;
+    createNewDataItem(itemLabel, componentTag) {
+        const newDataItem = document.createElement('div');
+        newDataItem.classList.add('data-item');
+        newDataItem.innerHTML = `
+            <div class="data-title">${itemLabel}:</div>
+            <div id="${componentTag}" class="data-values">No Signal</div>
+        `;
+        return newDataItem;
     }
     
-    createNewList() {
-        
-        const newList = document.createElement('ul');
-        newList.classList.add('drone-state-list');
+    createNewContainer() {
+        const newContainer = document.createElement('div');
+        newContainer.classList.add('drone-state-container');
         const droneStateDivider = document.getElementById('drone-state-divider');
-        droneStateDivider.appendChild(newList);
-        return newList;
-
+        droneStateDivider.appendChild(newContainer);
+        return newContainer;
     }
 
-    setupNewListItem(componentLabel) {
-        const targetList = this.findTargetList();
-        const listItem = this.createNewListItem(componentLabel);
+    setupNewDataItem(componentLabel, componentTag) {
+        const targetContainer = this.findTargetContainer();
+        const dataItem = this.createNewDataItem(componentLabel, componentTag);
 
-        if (targetList) {
-            targetList.appendChild(listItem);
+        if (targetContainer) {
+            targetContainer.appendChild(dataItem);
         } else {
-            const newList = this.createNewList();
-            newList.appendChild(listItem);
-            
+            const newContainer = this.createNewContainer();
+            newContainer.appendChild(dataItem);
         }
-        return listItem;
+        return dataItem;
     }
 
     
+    roundCommaSeparatedNumbers(data) {
+        const values = data.split(',').map(value => {
+            const number = parseFloat(value);
+            return isNaN(number) ? value : Math.round(number).toString();
+        });
+        return values.join(', ');
+    }
 }

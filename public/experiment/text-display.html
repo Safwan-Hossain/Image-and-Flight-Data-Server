@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #f1f1f1;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .data-container {
+            background-color: #282828;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 85%;
+            max-width: 700px;
+        }
+        .data-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #333;
+            border-left: 5px solid #f39c12;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        .data-item:hover {
+            background-color: #3d3d3d;
+        }
+        .data-item:last-child {
+            margin-bottom: 0;
+        }
+        .data-title {
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #f39c12;
+        }
+        .data-values {
+            background-color: #444;
+            color: #f1f1f1;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="data-container">
+        <div class="data-item">
+            <div class="data-title">Motor Signals:</div>
+            <div id="motor-signals" class="data-values"></div>
+        </div>
+        <div class="data-item">
+            <div class="data-title">Orientation:</div>
+            <div id="orientation" class="data-values"></div>
+        </div>
+        <div class="data-item">
+            <div class="data-title">Angular Rate:</div>
+            <div id="angular-rate" class="data-values"></div>
+        </div>
+    </div>
+
+    <script>
+        function displayData(data) {
+            const parts = data.split('|');
+            const orientation = parts[0];
+            const angularRate = parts[1];
+            const motorSignals = parts[2];
+
+            document.getElementById('motor-signals').innerText = motorSignals ? motorSignals : 'No data';
+            document.getElementById('orientation').innerText = orientation ? orientation : 'No data';
+            document.getElementById('angular-rate').innerText = angularRate ? angularRate : 'No data';
+        }
+
+        // Example data received
+        const receivedData = "-12.96,-17.47,-12.75|-0.44,5.33,-21.21|1446.39,1521.36,1453.69,1474.89";
+        displayData(receivedData);
+
+        // Simulate receiving new data every 5 seconds
+        setInterval(() => {
+            const newData = "-27.61,-10.39,-6.37|-5.44,3.33,-18.21|1487.95,1561.47,1491.13,1489.23";
+            displayData(newData);
+        }, 5000);
+    </script>
+</body>
+</html>

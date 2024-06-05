@@ -28,7 +28,7 @@ function requestToConnectToNewSerial(newSerialPath) {
 document.addEventListener('DOMContentLoaded', (event) => {
     const ejectButton = document.getElementById('eject-button');
     const refreshButton = document.getElementById('refresh-button');
-    const selectElement = document.getElementById('option-select');
+    const selectElement = document.getElementById('ports-option-select');
     const buttonContainer = document.getElementById('buttonContainer');
 
     refreshButton.addEventListener('click', (event) => {

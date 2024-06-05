@@ -19,7 +19,10 @@ export const DEFAULT_MOTOR_GRAPH_CONFIG = {
         scales: {
             y: {
                 beginAtZero: true,
-                max: 1
+                max: 1,
+                ticks: {
+                    color: '#000000'  
+                }
             }
         },
         animation: {

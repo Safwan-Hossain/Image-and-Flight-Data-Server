@@ -11,6 +11,7 @@ export class SerialPortMockHandler {
         this.options = options;
         this.interval = dataGenerationInterval; 
         this.dataEmitter = null;
+        this.previousValues = {}; 
         SerialPortMock.binding.createPort(this.path);
     }
 
@@ -55,12 +56,52 @@ export class SerialPortMockHandler {
         const max = componentSettings.maxValue;
         const numberOfValues = componentSettings.numberOfValues;
 
-        if (numberOfValues > 1) {
-            return this.#generateRandomStringArray(min, max, numberOfValues);
+        if (!(componentTag in this.previousValues)) {
+            this.previousValues[componentTag] = Array(numberOfValues).fill((min + max) / 2);
         }
-        return this.#generateRandomNumberBetween(min, max);
+
+
+        if (numberOfValues > 1) {
+            return this.#generateGradualStringArray(componentTag, min, max, numberOfValues);
+        }
+        return this.#generateGradualNumberBetween(componentTag, min, max);
     }
 
+    #generateGradualStringArray(componentTag, min, max, arraySize) {
+        let finalString = "";
+        for (let i = 0; i < arraySize; i++) {
+            const isLastIndex = i == (arraySize - 1);
+            const newValue = this.#generateGradualNumber(componentTag, i, min, max);
+            
+            finalString += newValue;
+            if (!isLastIndex) {
+                finalString += ARRAY_DELIMITER;
+            }
+        }
+        return finalString;
+    }
+
+    #generateGradualNumber(componentTag, index, min, max) {
+        const previousValue = this.previousValues[componentTag][index];
+        const change = (Math.random() - 0.5) * 5; // Gradual change between -2.5 and 2.5
+        let newValue = previousValue + change;
+        newValue = Math.max(min, Math.min(newValue, max)); // Clamp the value within the min-max range
+
+        this.previousValues[componentTag][index] = newValue; // Update the previous value
+        return newValue.toFixed(2);
+    }
+
+    #generateGradualNumberBetween(componentTag, min, max) {
+        const previousValue = this.previousValues[componentTag][0];
+        const change = (Math.random() - 0.5) * 5; // Gradual change between -2.5 and 2.5
+        let newValue = previousValue + change;
+        newValue = Math.max(min, Math.min(newValue, max)); // Clamp the value within the min-max range
+
+        this.previousValues[componentTag][0] = newValue; // Update the previous value
+        return newValue.toFixed(2);
+    }
+
+    
     #generateRandomStringArray(min, max, arraySize) {
         let finalString = ""
         for (let i = 0; i < arraySize; i++) {
