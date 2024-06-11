@@ -83,21 +83,21 @@ export class SerialPortMockHandler {
 
     #generateGradualNumber(componentTag, index, min, max) {
         const previousValue = this.previousValues[componentTag][index];
-        const change = (Math.random() - 0.5) * 5; // Gradual change between -2.5 and 2.5
+        const change = (Math.random() - 0.5) * 5; 
         let newValue = previousValue + change;
-        newValue = Math.max(min, Math.min(newValue, max)); // Clamp the value within the min-max range
+        newValue = Math.max(min, Math.min(newValue, max)); 
 
-        this.previousValues[componentTag][index] = newValue; // Update the previous value
+        this.previousValues[componentTag][index] = newValue; 
         return newValue.toFixed(2);
     }
 
     #generateGradualNumberBetween(componentTag, min, max) {
         const previousValue = this.previousValues[componentTag][0];
-        const change = (Math.random() - 0.5) * 5; // Gradual change between -2.5 and 2.5
+        const change = (Math.random() - 0.5) * 5; 
         let newValue = previousValue + change;
-        newValue = Math.max(min, Math.min(newValue, max)); // Clamp the value within the min-max range
+        newValue = Math.max(min, Math.min(newValue, max)); 
 
-        this.previousValues[componentTag][0] = newValue; // Update the previous value
+        this.previousValues[componentTag][0] = newValue; 
         return newValue.toFixed(2);
     }
 

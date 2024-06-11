@@ -21,7 +21,12 @@ export const DEFAULT_MOTOR_GRAPH_CONFIG = {
                 beginAtZero: true,
                 max: 1,
                 ticks: {
-                    color: '#000000'  
+                    color: '#fff'
+                }
+            },
+            x: {
+                ticks: {
+                    color: '#fff'
                 }
             }
         },

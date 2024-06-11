@@ -58,15 +58,11 @@ export class TextualDisplayPanel {
     }
 
     setupNewDataItem(componentLabel, componentTag) {
-        const targetContainer = this.findTargetContainer();
+        
+        const targetContainer = document.getElementsByClassName('info-list')[0]; //TODO change to id to avoid array access
         const dataItem = this.createNewDataItem(componentLabel, componentTag);
+        targetContainer.appendChild(dataItem);
 
-        if (targetContainer) {
-            targetContainer.appendChild(dataItem);
-        } else {
-            const newContainer = this.createNewContainer();
-            newContainer.appendChild(dataItem);
-        }
         return dataItem;
     }
 

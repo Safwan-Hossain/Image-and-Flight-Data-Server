@@ -36,6 +36,20 @@ const consoleLogger = new ConsoleLogger('console');
 const dataParser = new DataParser();
 dataParser.initialize();
 
+let batteryChargeValue = 600;
+const changeBatteryCharge = () => {
+    if (batteryChargeValue >= 500) {
+        console.log('there');
+        batteryChargeValue = 400;
+    } else {
+        console.log('here');
+        batteryChargeValue = 600;
+    }
+};
+
+setInterval(changeBatteryCharge, 5000);
+
+changeBatteryCharge();
 
 export function tempUpdateView(data) {
     consoleLogger.logMessage(LogLevel.INFO, 'Raw Data: ' + data);
@@ -51,7 +65,6 @@ export function tempUpdateView(data) {
     let motors = parsedData[MOTOR_SIGNAL_INDEX].split(ARRAY_DELIM);
     let orientation = parsedData[ORIENTATION_INDEX].split(ARRAY_DELIM);
     // let batteryChargeValue = parsedData[BATTERY_INDEX].split(ARRAY_DELIM);
-    let batteryChargeValue = 600;
 
     motors = motors.map(motorSignal => formatMotorSignal(motorSignal));
 
@@ -63,6 +76,8 @@ export function tempUpdateView(data) {
     // rotationGraph.updateGraph(orientation);
     dataParser.handleData(data);
 }
+
+
 
 function formatMotorSignal(number) {
     return (number - 1000) / 1000;

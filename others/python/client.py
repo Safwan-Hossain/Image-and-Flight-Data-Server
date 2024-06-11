@@ -2,7 +2,7 @@ import base64
 import socketio
 
 class CameraClient:
-    UPDATE_EVENT_NAME = "video"
+    UPDATE_EVENT_NAME = "camera_image_data_to_server"
     
     def __init__(self):
         self.sio = None
@@ -16,7 +16,8 @@ class CameraClient:
 
     def connect(self):
         try:
-            self.sio.connect('http://localhost:3000')
+            url = 'http://localhost:3000?role=camera'
+            self.sio.connect(url)
             print('Connection established.')
         except socketio.exceptions.ConnectionError as err:
             print(f'Connection error: {err}')

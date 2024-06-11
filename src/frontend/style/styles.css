@@ -12,7 +12,7 @@
     --charts-page-background-color: #161618; 
     --console-page-background-color: #f7f7f7;
 
-    --line-divider-color: #14141863;
+    --line-divider-color: #757575;
     --line-divider-lighter-color: #3b7777;
 
     --page-content-width: 50%;
@@ -54,21 +54,26 @@
     width: 10px; 
     height: 5px; 
 }
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+
+}
 
 /* ----------- GRAPHS SCROLLBAR ----------- */
 
+
 #chart-column::-webkit-scrollbar-track {
-    background-color: #3e696e; 
+    background-color: var(--body-background-color); 
     border-radius: 10px;
 }
 
 #chart-column::-webkit-scrollbar-thumb {
-    background-color: #fafafa; 
+    background-color: #4e4e4e; 
     border-radius: 8px; 
 }
 
 #chart-column::-webkit-scrollbar-thumb:hover {
-    background-color: #cf0e0e; 
+    background-color: #999999; 
 }
 
 #chart-column::-webkit-scrollbar {
@@ -203,6 +208,7 @@ navbar .logo {
     overflow: auto;
     transition: margin-left 0.3s ease;
     height: 100%;
+    min-width: 1800px;
 }
 
 /* background above and below a page */
@@ -488,94 +494,51 @@ button:hover {
     100% { transform: rotate(360deg); }
 } */
 
-.right-column {
-    display: grid;
-    grid-template-rows: auto; /* Adjust based on your content */
-    grid-template-columns: repeat(2, 1fr); /* Example for two columns */
-    gap: 10px; /* Space between grid items */
-    height: 100%;
-    justify-content: space-between; /* Space out children elements */
-}
-
-/* Style for the video container */
-.container {
-    display: flex;
-    justify-content: center; /* Center the video feed horizontally */
-    align-items: center; /* Center the video feed vertically */
-    flex-grow: 1; /* Allow the video container to grow and occupy available space */
-}
-
-#buttonContainer {
-    align-self: flex-end; /* Align buttons to the top right */
-}
 
 
 
-
-/* Style the button container */
-#buttonContainer {
-
-    background-color: #fff;
+ #buttonContainer {
+    background-color: #242424;
     border: 2px solid #4caf50;
     border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);  
-    
-
-    grid-area: buttons;
-    align-self: flex-start; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    align-items: center; /* Center buttons horizontally */
-    justify-content: start; /* Align items to the start of the container */
-    width: 180px;
-    /* margin: 10px; */
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center; 
+    width: 200px;
+    height: 200px;
     padding: 10px;
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  */
-    height: auto; /* Height to fit content */
+    box-sizing: border-box; 
+    margin: 0;
 }
 
-
-/* Style the heading */
-#buttonContainerHeading {
-    margin-bottom: 15px; /* Spacing between the heading and the first button */
-    font-size: 16px;
-    color: #333; /* Dark grey color for text */
-    text-align: center;
-}
-
-
-/* General button styling */
 #buttonContainer button {
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
+    font-family: 'Inter', sans-serif;
+    background-color: #e69615;
+    color: rgb(255, 255, 255);
     border: none;
     padding: 10px;
-    margin-bottom: 10px; /* Space between buttons */
-    width: 70%; /* Make buttons occupy most of the container width */
-    text-align: center; /* Center text within button */
-    border-radius: 4px; /* Slightly rounded corners for buttons */
+    width: 80%; 
+    text-align: center; 
+    border-radius: 4px; 
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: bolder;
     transition: background-color 0.3s ease;
 }
 
-/* Last child button margin bottom */
-#buttonContainer button:last-child {
-    margin-bottom: 0;
-}
-
-/* Change button background color slightly on hover */
 #buttonContainer button:hover {
-    background-color: #0056b3;
+    background-color: #df7e29;
 }
 
-/* Further styling when button is clicked (active) */
+/* button is clicked  */
 #buttonContainer button:active {
-    background-color: #003885;
+    background-color: #d35400;
     transform: translateY(2px);
 }
 
-/* Optional: Style for disabled buttons */
 #buttonContainer button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;

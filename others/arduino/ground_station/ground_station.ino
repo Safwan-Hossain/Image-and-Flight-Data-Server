@@ -1,27 +1,41 @@
-
 void setup() {
-  Serial.begin(9600);  // Start serial communication at 9600 bps
+  Serial.begin(9600);
+  randomSeed(analogRead(0));
 }
-
-String startMessageChar = "!";
-String endMessageChar = "@";
 
 void loop() {
-
-  int x = 102 + random(0, 10);
-  int y = 127 + random(0, 10);
-  int z = 299 + random(0, 10);
-  String location = CreateVector(x, y, z);
-  String data = startMessageChar + "DRONE A, 192.108.22, FRIENDLY," + location + endMessageChar; // TODO - Finalize data and indices for data
-  Serial.println(data);
-  delay(200);  
+  printData();
 }
 
-String CreateVector(int x, int y, int z) {
-  return "(" + String(x) + "|" + String(y) + "|" + String(z) + ")";
+void printData() {
+  // angular rates
+  float angularRates[3] = { generateRandomValue(-30.0, 30.0), generateRandomValue(-30.0, 30.0), generateRandomValue(-30.0, 30.0) };
+
+  // orientation
+  float orientations[3] = { generateRandomValue(-30.0, 30.0), generateRandomValue(-30.0, 30.0), generateRandomValue(-30.0, 30.0) };
+
+  // motor signals
+  float motorSignals[4] = { generateRandomValue(1000.0, 1600.0), generateRandomValue(1400.0, 2000.0), generateRandomValue(1400.0, 1500.0), generateRandomValue(1000.0, 2000.0) };
+
+  printArray(angularRates, 3);
+  Serial.print("|");
+
+  printArray(orientations, 3);
+  Serial.print("|");
+
+  printArray(motorSignals, 4);
+  Serial.println();
 }
-g
-void FillArray(char * ar, int batteryPercentage)
-{
-  ar[0] = batteryPercentage;
+
+float generateRandomValue(float minValue, float maxValue) {
+  return minValue + (float)random(0, 10000) / 10000.0 * (maxValue - minValue);
+}
+
+void printArray(float* array, int size) {
+  for (int i = 0; i < size; i++) {
+    if (i > 0) {
+      Serial.print(",");
+    }
+    Serial.print(array[i], 2);
+  }
 }

@@ -35,6 +35,7 @@ export class CommunicationManager {
     }
 
     handleImageData(imageData) {
+        
         this.socketHandler.sendDataToClient(CLIENT_EVENT_TAGS.CAMERA_IMAGE_DATA, imageData);
     }
 

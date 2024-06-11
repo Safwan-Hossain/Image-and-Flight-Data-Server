@@ -23,6 +23,8 @@ export class DroneVisualizer {
         this.renderWindow = genericRenderWindow.getRenderWindow();
         this.interactor = genericRenderWindow.getInteractor();
 
+        this.renderer.setBackground(0.212, 0.212, 0.212);
+        
         this.actor = vtkActor.newInstance();
         this.mapper = vtkMapper.newInstance();
 
@@ -35,6 +37,7 @@ export class DroneVisualizer {
         this.reader.setUrl(this.stlModelPath).then(() => {
             this.setUpStlModel();
         });
+        this.actor.rotateX(-90);
     }
 
     setUpStlModel() {

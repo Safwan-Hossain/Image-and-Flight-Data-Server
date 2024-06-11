@@ -60,13 +60,13 @@ export class ClientSocket {
             tempUpdateView(data);
         });
 
-        this.socket.on('frame2', (data) => {
+        this.socket.on(CLIENT_EVENT_TAGS.CAMERA_IMAGE_DATA, (data) => {
             console.log("Image data received on javascript");
             const videoStream = document.getElementById('video-stream');
             const videoPlaceholder = document.getElementById('video-placeholder');
           
             if (data) {
-                const imageUrl = 'data:image/jpeg;base64,' + data;
+                const imageUrl = 'data:image/jpeg;base64,' + data.image;
                 videoStream.src = imageUrl;
                 videoStream.style.display = 'block';
                 videoPlaceholder.style.display = 'none';

@@ -1,6 +1,6 @@
 import {ITEM_TAGS} from "../../config/parsing-data.js"
 
-export const DATA_GENERATION_INTERVAL = 100; // Time (in ms) between data generation
+export const DATA_GENERATION_INTERVAL = 100; // Time (in ms) 
 
 export const COMPONENT_VALUES = {
     [ITEM_TAGS.MOTOR_SIGNALS]: {
