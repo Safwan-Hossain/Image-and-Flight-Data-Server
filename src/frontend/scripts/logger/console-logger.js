@@ -14,8 +14,8 @@ export class ConsoleLogger {
         if (!Object.values(LogLevel).includes(level)) {
             throw new Error(`Invalid log level: ${level}`);
         }
-
-        const atBottom = this.consoleElement.scrollHeight - this.consoleElement.scrollTop === this.consoleElement.clientHeight;
+        const bottomMargin = 3; // in pixels
+        const atBottom = (this.consoleElement.scrollHeight - this.consoleElement.scrollTop - this.consoleElement.clientHeight) <= bottomMargin;
 
         const time = new Date().toLocaleTimeString();
         const logElement = document.createElement('div');
