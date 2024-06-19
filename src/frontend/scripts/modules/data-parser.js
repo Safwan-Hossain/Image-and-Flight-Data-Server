@@ -93,7 +93,7 @@ export class DataParser {
         
         const graphCanvas = this.createGraphCanvas(itemTag);
         
-        graphCanvas.addEventListener('click', () => {this.openOnNewScreen(itemTag, graphSettings.title, lineLabels)});
+        // graphCanvas.addEventListener('click', () => {this.openOnNewScreen(itemTag, graphSettings.title, lineLabels)});
 
         const newTimeGraph = new TimelineGraph(graphCanvas, lineLabels);
         newTimeGraph.setTitle(graphSettings.title);
