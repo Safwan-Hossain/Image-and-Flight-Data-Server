@@ -7,17 +7,28 @@ This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian 
 <div style="display: flex;">
 
 <div style="flex: 30%; padding: 10px;">
-  <h2>⚙️ Setup </h2>
-  <ol>
-   <li>Install <a href="https://nodejs.org/">Node.js</a></li>
-   <li>Open <strong>Command Prompt</strong> in the project root directory</li>
-   <li>Type in <code>npm install</code> and click enter</li>
-   <li>Wait for the setup to finish</li>
+   <h2>⚙️ Setup </h2>
+   <ol>
+      <li>Install <a href="https://nodejs.org/">Node.js</a></li>
+      <li>Open <strong>Command Prompt</strong> in the project root directory</li>
+      <li>Type in <code>npm install</code> and click enter</li>
+      <li>Wait for the setup to finish</li>
+      <li>Type in <code>npm build</code> and click enter</li>
+      <li>Wait for the build to finish</li>
+   </ol>
+   <h3>🖥️ Starting the application</h3>
+   <ol>
+      <li>Open <strong>Command Prompt</strong> in the project root directory</li>
+      <li>Type the command <code>npm start</code> and press enter</li>
+      <li>In the application, under the <strong>Settings</strong> tab, navigate to <strong>Serial Ports</strong> and select <strong>Mock Serial Port</strong></li>
+      <li>Navigate to the <strong>Charts</strong> page</li>
    </ol>
 </div>
 
 <div style="flex: 70%; padding: 10px;">
   <img src="./images/dashboard.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
+  
+  <img src="./images/settings.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
 </div>
 
 </div>
