@@ -4,6 +4,23 @@ This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian 
 
 ## ▶️ Running The Demo 
 <img src="./images/dashboard.png" alt="Logo" width="500"/>
+<div style="display: flex;">
+
+<div style="flex: 30%; padding: 10px;">
+  <h2>⚙️ Setup </h2>
+  <ol>
+   <li>Install <a href="https://nodejs.org/">Node.js</a></li>
+   <li>Open <strong>Command Prompt</strong> in the project root directory</li>
+   <li>Type in <code>npm install</code> and click enter</li>
+   <li>Wait for the setup to finish</li>
+   </ol>
+</div>
+
+<div style="flex: 70%; padding: 10px;">
+  <img src="./images/dashboard.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
+</div>
+
+</div>
 
 ### ⚙️ Setup 
    1. Install [**node.js**][node.js]
@@ -36,4 +53,4 @@ Navigate to the [**documentation**][docs] folder to review the hazard analysis, 
 [docs]: documentation
 
 <!-- Images -->
-[dashboard_image]: images\dashboard.png
+[dashboard_image]: images/dashboard.png
