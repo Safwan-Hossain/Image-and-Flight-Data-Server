@@ -9,8 +9,6 @@ import { ConsoleLogger, LogLevel } from '../logger/console-logger.js';
 // vtk
 const vtkContainer = document.getElementById('vtkContainer');
 const stlURL = Config.stl.relativeFileLocation;
-// const stlURL = '../../../assets/stl/drone_model_centered.stl';
-
 const droneVisualizer = new DroneVisualizer(vtkContainer, stlURL);
 
 // battery
@@ -22,13 +20,8 @@ const chargeRateDisplay = document.getElementById('chargeRate');
 const batteryGraph = new BatteryGraph(battery, batteryPercentage, lightningSymbol, chargeRateDisplay);
 
 // motor graph
-const motorGraphElement = document.getElementById('myBarChart'); // TODO - change name
+const motorGraphElement = document.getElementById('myBarChart'); // TODO - change element id
 const motorGraph = new MotorGraph(motorGraphElement);
-
-
-// const rotationGraph = new TimelineGraph('timelineChart1', ['Roll', 'Pitch', 'Yaw']);
-// rotationGraph.setTitle('ORIENTATION');
-// rotationGraph.setYAxisRange(0, 360, 60);
 
 // Console logger
 const consoleLogger = new ConsoleLogger('console');
