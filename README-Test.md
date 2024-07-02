@@ -10,11 +10,12 @@ This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian 
    <h2>⚙️ Setup </h2>
    <ol>
       <li>Install <a href="https://nodejs.org/">Node.js</a></li>
-      <li>Open <strong>Command Prompt</strong> in the project root directory</li>
-      <li>Type in <code>npm install</code> and click enter</li>
-      <li>Wait for the setup to finish</li>
-      <li>Type in <code>npm build</code> and click enter</li>
-      <li>Wait for the build to finish</li>
+      <li>Open Command Prompt in the project root directory</li>
+      <li>Run:
+      <pre><code>npm install
+      npm build</code></pre>
+      </li>
+      <li>Wait for the setup and build processes to complete</li>
    </ol>
    <h3>🖥️ Starting the application</h3>
    <ol>
@@ -27,7 +28,7 @@ This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian 
 
 <div style="flex: 70%; padding: 10px;">
   <img src="./images/dashboard.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
-  
+
   <img src="./images/settings.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
 </div>
 
