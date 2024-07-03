@@ -16,8 +16,10 @@ This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian 
       <li>Install <a href="https://nodejs.org/">Node.js</a></li>
       <li>Open Command Prompt in the project root directory</li>
       <li>Run:
-      <code><pre>npm install 
-npm build</pre></code>
+      <pre><code>npm install 
+npm build</code></pre>
+      <code>npm install 
+npm build</code>
       </li>
       <li>Wait for the setup and build processes to complete</li>
    </ol>
