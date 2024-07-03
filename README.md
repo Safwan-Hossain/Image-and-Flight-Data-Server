@@ -17,7 +17,7 @@ This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian 
    2. Run the command <code>npm start</code>. This will startup the application.
    3. In the application, under the **Settings** tab, navigate to **Serial Ports** and select **Mock Serial Port**
    4. Navigate to the **Charts** page
-## 🕹️ Setup Arduino - <span style="color: mediumseagreen;">Optional</span>
+## 🕹️ Setup Arduino - *Optional*
    1. Plug in an Arduino
    2. Upload [**ground_station.ino** ][arduino_code] to the Arduino
    3. In the application, under the **Settings** tab, navigate to **Serial Ports** and select your desired port
