@@ -2,20 +2,22 @@
 ## 💼 Overview  
 This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian Department of National Defence. This application includes a node server that communicates with a wired AI driven camera system and a drone via serial connection. The data from these subsystems are visualized and displayed in a graphical user interface (GUI) using graphs and 3D mediums in real time. The application was primarily developed using HTML, CSS, JavaScript, and Node.js, along with additional tools like npm, Electron, Babel, and Webpack.
 
-## ▶️ Running The Demo 
 <img src="./images/dashboard.png" alt="Logo" width="500"/>
 
+## ▶️ Running The Demo 
+
 ### ⚙️ Setup 
-   1. Install [**node.js**][node.js]
+   1. Install [**Node.js**][node.js]
    2. Open **Command Prompt** in the project root directory
-   3. Type in "**npm install**" and click enter
-   4. Wait for the setup to finish 
+   3. Run the following command <code>npm install</code> and wait for it to finish 
+   4. Once the above command completes, run: <code>npm build</code>
+   5. Wait for the setup to finish 
 ### 🖥️ Starting the application 
    1. Open **Command Prompt** in the project root directory
-   2. Type the command "**npm start**" and press enter
+   2. Run the command <code>npm start</code>. This will startup the application.
    3. In the application, under the **Settings** tab, navigate to **Serial Ports** and select **Mock Serial Port**
    4. Navigate to the **Charts** page
-### 🕹️ Setup Arduino - Optional
+## 🕹️ Setup Arduino - <span style="color: mediumseagreen;">Optional</span>
    1. Plug in an Arduino
    2. Upload [**ground_station.ino** ][arduino_code] to the Arduino
    3. In the application, under the **Settings** tab, navigate to **Serial Ports** and select your desired port
