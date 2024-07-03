@@ -1,5 +1,6 @@
-# Image-and-Flight-Data-Server 🚁
-## 💼 Overview  
+# Image-and-Flight-Data-Server <img src="./images/rocket.gif" alt="Alt text" width="30"/>
+# Image-and-Flight-Data-Server <img src="./images/helicopter.png" alt="Alt text" width="40" />
+## 💼 Overview  🚁
 This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian Department of National Defence. This application includes a node server that communicates with a wired AI driven camera system and a drone via serial connection. The data from these subsystems are visualized and displayed in a graphical user interface (GUI) using graphs and 3D mediums in real time. The application was primarily developed using HTML, CSS, JavaScript, and Node.js, along with additional tools like npm, Electron, Babel, and Webpack.
 
 ## ▶️ Running The Demo 
