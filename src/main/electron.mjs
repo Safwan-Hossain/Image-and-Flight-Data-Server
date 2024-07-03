@@ -20,6 +20,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    titleBarStyle: 'hiddenInset', 
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false, // Adjust based on your security needs

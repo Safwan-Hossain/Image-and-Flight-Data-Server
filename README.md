@@ -37,6 +37,3 @@ Navigate to the [**documentation**][docs] folder to review the hazard analysis, 
 [index.html]: public/index.html
 [node.js]: https://nodejs.org
 [docs]: documentation
-
-<!-- Images -->
-[dashboard_image]: images\dashboard.png

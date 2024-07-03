@@ -1,11 +1,11 @@
-# Image-and-Flight-Data-Server <img src="./images/rocket.gif" alt="Alt text" width="30"/>
-# Image-and-Flight-Data-Server <img src="./images/helicopter.png" alt="Alt text" width="40" />
-# Image-and-Flight-Data-Server <img src="./images/airplane.webp" alt="Alt text" width="40" />
+# Image-and-Flight-Data-Server <img src="../../images/rocket.gif" alt="Alt text" width="30"/>
+# Image-and-Flight-Data-Server <img src="../../images/helicopter.png" alt="Alt text" width="40" />
+# Image-and-Flight-Data-Server <img src="../../images/airplane.webp" alt="Alt text" width="40" />
 ## 💼 Overview  🚁
 This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian Department of National Defence. This application includes a node server that communicates with a wired AI driven camera system and a drone via serial connection. The data from these subsystems are visualized and displayed in a graphical user interface (GUI) using graphs and 3D mediums in real time. The application was primarily developed using HTML, CSS, JavaScript, and Node.js, along with additional tools like npm, Electron, Babel, and Webpack.
 
 ## ▶️ Running The Demo 
-<img src="./images/dashboard.png" alt="Logo" width="500"/>
+<img src="../../images/dashboard.png" alt="Logo" width="500"/>
 <div style="display: flex;">
 
 
@@ -34,9 +34,9 @@ npm build</code>
 </div>
 
 <div style="flex: 70%; padding: 10px;">
-  <img src="./images/dashboard.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
+  <img src="../../images/dashboard.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
 
-  <img src="./images/settings.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
+  <img src="../../images/settings.png" alt="Image 2" height="100px" style="margin-top: 80px"/>
 </div>
 
 </div>
@@ -65,11 +65,11 @@ Navigate to the [**documentation**][docs] folder to review the hazard analysis, 
 - We are working on developing a communication system that enables wireless communication with the drone via radio waves
 
 <!-- File Links -->
-[src/main]: src/main
-[arduino_code]: others/arduino/ground_station/ground_station.ino
-[index.html]: public/index.html
+[src/main]: ../../src/main
+[arduino_code]: ../../others/arduino/ground_station/ground_station.ino
+[index.html]: ../index.html
 [node.js]: https://nodejs.org
-[docs]: documentation
+[docs]: ../../documentation
 
 <!-- Images -->
-[dashboard_image]: images/dashboard.png
+[dashboard_image]: ../../images/dashboard.png
