@@ -2,7 +2,7 @@
 ## 💼 Overview  
 This project was in collaboration with VanWyn Inc., NATO DIANA and the Canadian Department of National Defence. This application includes a node server that communicates with a wired AI driven camera system and a drone via serial connection. The data from these subsystems are visualized and displayed in a graphical user interface (GUI) using graphs and 3D mediums in real time. The application was primarily developed using HTML, CSS, JavaScript, and Node.js, along with additional tools like npm, Electron, Babel, and Webpack.
 
-<img src="./images/dashboard.png" alt="Logo" width="500"/>
+<img src="./images/dashboard.png" alt="Logo" width="100%"/>
 
 ## ▶️ Running The Demo 
 
