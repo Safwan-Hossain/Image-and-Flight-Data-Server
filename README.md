@@ -28,8 +28,8 @@ Navigate to the [**documentation**][docs] folder to review the hazard analysis, 
 
 ## 🔮 Future Development  
 ### 📡 Radio Communication System 
-- The drone's main processor currently requires a wired connection to the computer
-- We are working on developing a communication system that enables wireless communication with the drone via radio waves
+- The computer requires a wired connection to the drone's main processor to display data
+- We are currently developing a communication system that can wirelessly communicate with the drone 
 
 <!-- File Links -->
 [src/main]: src/main
